@@ -1,0 +1,15 @@
+{
+  "name": "fortrabbit",
+  "description": "Deploy and manage websites and web apps on fortrabbit. Run remote commands, sync databases and content, trigger deployments. Works with Laravel, Craft CMS, Kirby, Statamic and WordPress.",
+  "version": "0.1.0",
+  "author": {
+    "name": "fortrabbit",
+    "email": "support@fortrabbit.com",
+    "url": "https://www.fortrabbit.com"
+  },
+  "homepage": "https://docs.fortrabbit.com",
+  "repository": "https://github.com/fortrabbit/agent-plugin",
+  "license": "MIT",
+  "keywords": ["hosting", "deployment", "php", "laravel", "craft-cms", "kirby", "statamic", "wordpress"],
+  "skills": "../skills/"
+}

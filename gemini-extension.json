@@ -1,0 +1,17 @@
+{
+  "name": "fortrabbit",
+  "version": "0.1.0",
+  "description": "Deploy and manage websites and web apps on fortrabbit. Trigger deployments, run remote SSH commands, sync databases and CMS content. Works with Laravel, Craft CMS, Kirby, Statamic, and WordPress.",
+  "contextFileName": "GEMINI.md",
+  "keywords": [
+    "fortrabbit",
+    "deploy",
+    "php",
+    "laravel",
+    "craft-cms",
+    "wordpress",
+    "ssh",
+    "hosting"
+  ],
+  "homepage": "https://github.com/fortrabbit/agent-plugin"
+}
