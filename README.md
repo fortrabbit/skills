@@ -30,11 +30,25 @@ Or manually — **globally** (available in all projects):
 git clone https://github.com/fortrabbit/agent-plugin ~/.claude/plugins/fortrabbit
 ```
 
+Then start Claude Code with the `--plugin-dir` flag to activate it:
+
+```shell
+claude --plugin-dir ~/.claude/plugins/fortrabbit
+```
+
 Or **per project** (checked into your project repo):
 
 ```shell
 git clone https://github.com/fortrabbit/agent-plugin .claude/plugins/fortrabbit
 ```
+
+Then start Claude Code from your project root with:
+
+```shell
+claude --plugin-dir .claude/plugins/fortrabbit
+```
+
+> **Note:** The `git clone` alone does not register the plugin — Claude Code does not auto-discover plugins from the plugins directory. The `--plugin-dir` flag is required until marketplace-based installation (`/plugin install fortrabbit`) is available.
 
 Add to `.gitignore` if you don't want to commit it:
 
