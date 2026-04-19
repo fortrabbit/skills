@@ -123,3 +123,5 @@ Configure these in the dashboard under:
 2. The most common failures are Composer errors or failing post-deploy commands.
 3. Post-deploy command failures mean files were already deployed but the command failed — the app may be running new code without the migration applied.
 4. If Composer fails: check `composer.json` for syntax errors or version conflicts.
+
+After deploying code changes, review them in your browser. See [browser-review.md](browser-review.md) for test domain instructions.

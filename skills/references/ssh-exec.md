@@ -103,3 +103,5 @@ ssh APP_ENV_ID@ssh.REGION.frbit.app 'php --version'
 # Check disk usage
 ssh APP_ENV_ID@ssh.REGION.frbit.app 'du -sh ./'
 ```
+
+After running SSH commands that modify your application, review the changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.

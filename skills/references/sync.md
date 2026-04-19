@@ -37,7 +37,14 @@ When using rsync to sync all files, use the following commands.
 ### Upload all files to remote
 
 ```bash
-rsync -av ./ {{app-env-id}}@ssh.{{region}}.frbit.app:
+rsync -av \
+  --exclude='.git/' \
+  --exclude='.claude/' \
+  --exclude='.env' \
+  --exclude='.env.local' \
+  --exclude='.DS_Store' \
+  --exclude='node_modules/' \
+  ./ {{app-env-id}}@ssh.{{region}}.frbit.app:
 ```
 
 ### Download all files from remote

@@ -150,3 +150,5 @@ rsync -avn ./content/ APP_ENV_ID@ssh.REGION.frbit.app:./content/
 - rsync uses your local SSH key — the same key registered in the dashboard.
 - Syncing down overwrites local files. Warn the user before running a down-sync.
 - Do not sync the `vendor/` folder unless you intentionally want to overwrite Composer dependencies on the remote.
+
+After syncing content, review the changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.

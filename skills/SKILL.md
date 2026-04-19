@@ -29,24 +29,7 @@ The SSH host is always: `APP_ENV_ID@ssh.REGION.frbit.app`
 
 ---
 
-## Step 2 — Detect the project type
-
-Inspect the project root:
-
-| Signal | Project type |
-|--------|-------------|
-| `composer.json` contains `laravel/framework` or file `artisan` exists | Laravel |
-| `composer.json` contains `craftcms/cms` | Craft CMS |
-| `composer.json` contains `statamic/cms` | Statamic |
-| `composer.json` contains `getkirby/cms` | Kirby CMS |
-| `wp-config.php` or `wp-config-sample.php` exists | WordPress |
-| `composer.json` present (none of the above) | Generic PHP |
-
-Store the detected project type. It determines which commands and rsync paths are relevant.
-
----
-
-## Step 3 — Route by intent
+## Step 2 — Route by intent
 
 Classify what the user wants, then load the appropriate reference file:
 
@@ -62,6 +45,7 @@ Classify what the user wants, then load the appropriate reference file:
 | Database: pull, push, dump, restore, migrate | [references/database.md](references/database.md) |
 | Content sync, rsync uploads, sync assets, sync down | [references/sync-content.md](references/sync-content.md) |
 | Detect git and GitHub, or fall back to full rsync sync | [references/sync.md](references/sync.md) |
+| Review changes in browser using test domain | [references/browser-review.md](references/browser-review.md) |
 | Sync all files with rsync | [references/sync-all.md](references/sync-all.md) |
 | General help or no arguments | Show the capability summary below |
 

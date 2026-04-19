@@ -21,6 +21,38 @@ The tunnel maps `localhost:13306` on your machine to the remote MySQL server. Po
 
 ---
 
+## Get and store the remote database password
+
+The remote database requires a password for connection. Get the password from the fortrabbit dashboard:
+
+**Dashboard → Environment → MySQL → Access**
+
+To avoid entering the password each time, store it locally:
+
+### Option 1: Store in .env (recommended for secrets)
+
+Add to your `.env` file:
+
+```env
+FORTRABBIT_DB_PASSWORD=your_actual_password_here
+```
+
+Make sure `.env` is in `.gitignore`.
+
+### Option 2: Store in .fortrabbit
+
+If you prefer to keep all fortrabbit config together, add to `.fortrabbit`:
+
+```text
+app-env-id=en-xxxxxx
+region=eu-w1a
+db-password=your_actual_password_here
+```
+
+Then update your database commands to use the stored password instead of prompting.
+
+---
+
 ## Pull: download remote database to local
 
 > **Warning:** This overwrites your local database. The current local data will be lost.
@@ -31,6 +63,10 @@ The tunnel maps `localhost:13306` on your machine to the remote MySQL server. Po
 mysqldump --set-gtid-purged=OFF --no-tablespaces \
   -h127.0.0.1 -P13306 -uAPP_ENV_ID -p APP_ENV_ID > fortrabbit-backup.sql
 # Enter the MySQL password when prompted (from the dashboard)
+
+# Alternative: if password is stored in .env as FORTRABBIT_DB_PASSWORD
+mysqldump --set-gtid-purged=OFF --no-tablespaces \
+  -h127.0.0.1 -P13306 -uAPP_ENV_ID -p$FORTRABBIT_DB_PASSWORD APP_ENV_ID > fortrabbit-backup.sql
 
 # Step 2: import into your local database
 mysql -uLOCAL_DB_USER -p LOCAL_DB_NAME < fortrabbit-backup.sql
@@ -59,12 +95,18 @@ mysqldump --set-gtid-purged=OFF -uLOCAL_DB_USER -p LOCAL_DB_NAME > local-dump.sq
 # Step 2: import into remote via tunnel
 mysql -h127.0.0.1 -P13306 -uAPP_ENV_ID -p APP_ENV_ID < local-dump.sql
 # Enter the MySQL password when prompted (from the dashboard)
+
+# Alternative: if password is stored in .env as FORTRABBIT_DB_PASSWORD
+mysql -h127.0.0.1 -P13306 -uAPP_ENV_ID -p$FORTRABBIT_DB_PASSWORD APP_ENV_ID < local-dump.sql
 ```
 
 For DDEV:
 ```shell
 ddev export-db > local-dump.sql
 mysql -h127.0.0.1 -P13306 -uAPP_ENV_ID -p APP_ENV_ID < local-dump.sql
+
+# Alternative: if password is stored in .env as FORTRABBIT_DB_PASSWORD
+mysql -h127.0.0.1 -P13306 -uAPP_ENV_ID -p$FORTRABBIT_DB_PASSWORD APP_ENV_ID < local-dump.sql
 ```
 
 ---
@@ -76,6 +118,9 @@ mysql -h127.0.0.1 -P13306 -uAPP_ENV_ID -p APP_ENV_ID < local-dump.sql
 
 # Terminal window 2
 mysql -uAPP_ENV_ID -h127.0.0.1 -P13306 -p -D APP_ENV_ID
+
+# Alternative: if password is stored in .env as FORTRABBIT_DB_PASSWORD
+mysql -uAPP_ENV_ID -h127.0.0.1 -P13306 -p$FORTRABBIT_DB_PASSWORD -D APP_ENV_ID
 ```
 
 ---
@@ -86,3 +131,5 @@ mysql -uAPP_ENV_ID -h127.0.0.1 -P13306 -p -D APP_ENV_ID
 - The database name and username are both the environment ID (e.g. `en-wjl0ai`).
 - Use `127.0.0.1` not `localhost` — MySQL treats these differently.
 - Close the tunnel window when done.
+
+After database operations, review the changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.
