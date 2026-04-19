@@ -20,7 +20,7 @@ Supports: Laravel, Craft CMS (4, 5), Kirby, Statamic, WordPress, and generic PHP
 ### Claude Code
 
 ```shell
-# Planned via marketplace
+# Idea
 /plugin install fortrabbit
 ```
 
