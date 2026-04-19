@@ -38,6 +38,8 @@ Classify what the user wants, then load the appropriate reference file:
 | First time setup, "how do I connect", SSH keys | [references/setup.md](references/setup.md) |
 | Set up Git and GitHub for deployment | [references/setup-git-github.md](references/setup-git-github.md) |
 | Detect installed software or supported CMS | [references/software-detection.md](references/software-detection.md) |
+| Craft CMS config for local and fortrabbit environments | [references/craft-cms.md](references/craft-cms.md) |
+| Kirby CMS config for local and fortrabbit environments | [references/kirby-cms.md](references/kirby-cms.md) |
 | Detect local development tooling or dev container setup | [references/local-development.md](references/local-development.md) |
 | WordPress config for local and fortrabbit environments | [references/wordpress.md](references/wordpress.md) |
 | Deploy, push code, trigger deployment, deploy hook | [references/deploy.md](references/deploy.md) |

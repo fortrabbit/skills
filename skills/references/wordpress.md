@@ -70,7 +70,7 @@ if (file_exists(__DIR__ . '/.env')) {
 }
 ```
 
-## Fortrabbit environment setup
+## fortrabbit environment setup
 
 On fortrabbit, configure the database credentials in the environment settings so the `FORTRABBIT_DB_*` variables are available to WordPress.
 
