@@ -15,6 +15,35 @@ define('DB_PASSWORD', getenv('FORTRABBIT_DB_PASSWORD') ?: 'your_local_db_passwor
 
 This makes WordPress use the fortrabbit environment variables when available, and fall back to local placeholders when they are not.
 
+## URL constants with env var fallbacks
+
+Add these definitions to `wp-config.php` after the database settings to control WordPress URLs:
+
+```php
+$_fortrabbit_domain = getenv('FORTRABBIT_MAIN_DOMAIN');
+define('WP_HOME',    $_fortrabbit_domain ? 'https://' . $_fortrabbit_domain : 'http://your_local_dev_url');
+define('WP_SITEURL', $_fortrabbit_domain ? 'https://' . $_fortrabbit_domain : 'http://your_local_dev_url');
+```
+
+Replace `your_local_dev_url` with your local development URL (e.g., `localhost:8080`, `myproject.test`).
+
+## When URL constants are used
+
+The `WP_HOME` and `WP_SITEURL` constants are evaluated on every WordPress page load and take precedence over any URL values stored in the database.
+
+- **Database fallback**: WordPress stores `siteurl` and `home` values in the `wp_options` table, but these are only used when the constants are not defined.
+- **Constant priority**: When `WP_SITEURL` and `WP_HOME` are defined in `wp-config.php`, WordPress ignores the database values entirely.
+- **Installation impact**: During WordPress installation, if these constants are defined, they determine the initial database values. However, the constants always override the database afterward.
+- **Migration safety**: This approach prevents URL issues when migrating between environments, as the constants dynamically set the correct URLs based on the environment.
+
+**Source**: This behavior is documented in the official WordPress Codex and implemented in WordPress core (see `wp-includes/option.php` and `wp-includes/link-template.php`). The constants are checked before database queries for URL options.
+
+## How this works
+
+- On fortrabbit: the remote environment sets `FORTRABBIT_MAIN_DOMAIN` to your live domain, so WordPress uses HTTPS URLs.
+- Locally: falls back to your local development URL with HTTP.
+- This prevents WordPress from hardcoding URLs in the database and makes the same `wp-config.php` work in both environments.
+
 ## How this works
 
 - On fortrabbit: the remote environment sets `FORTRABBIT_DB_HOST`, `FORTRABBIT_DB_NAME`, `FORTRABBIT_DB_USER`, and `FORTRABBIT_DB_PASSWORD` env vars.
