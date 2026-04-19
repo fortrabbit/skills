@@ -1,5 +1,35 @@
 # Deploying to fortrabbit
 
+## Prerequisites
+
+### Check Git setup
+
+Verify if the current directory is a Git repository:
+
+```bash
+git status
+```
+
+If this fails with "fatal: not a git repository", the directory is not initialized as a Git repo.
+
+### Check GitHub connection
+
+If it is a Git repository, check for a GitHub remote:
+
+```bash
+git remote -v
+```
+
+Look for an `origin` remote with a URL containing `github.com`.
+
+### If Git and GitHub are not set up
+
+If the project lacks Git or a GitHub connection, deployment via Git push is not possible. You have two options:
+
+1. **Set up Git and connect to GitHub**: Follow the instructions in [setup-git-github.md](setup-git-github.md) to initialize Git, create a GitHub repository, and connect it to your fortrabbit app via the GitHub App.
+
+2. **Sync files with rsync**: Use rsync to manually sync all files. See [sync-all.md](sync-all.md) for rsync commands and proceed with the sync process.
+
 ## How deployment works
 
 fortrabbit deploys code via Git. The recommended workflow:
@@ -8,9 +38,7 @@ fortrabbit deploys code via Git. The recommended workflow:
 2. The fortrabbit GitHub app detects the push
 3. A deployment is triggered automatically
 4. The build pipeline runs (Composer install, build commands)
-5. Post-deploy commands run (artisan migrate, cache:clear, etc.)
-
-**Git is one-way:** you can only push code up. Never pull from the fortrabbit remote into your local repo.
+5. Post-deploy commands run (artisan migrate, cache:clear, etc.) on fortrabbit
 
 ## Trigger deployment via git push
 

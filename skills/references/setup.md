@@ -26,7 +26,7 @@ The app environment ID is a short random string, for example: `en-wjl0ai`
 
 The region is a location code, for example: `eu-w1a` or `us-e1a`
 
-Full SSH address: `en-xxxxxx@ssh.eu-w1a.frbit.app`
+Full SSH address: `en-xxxxxx@ssh.xxxxxx.frbit.app`
 
 ## Save the config locally
 

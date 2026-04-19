@@ -53,10 +53,16 @@ Classify what the user wants, then load the appropriate reference file:
 | User intent | Reference to load |
 |-------------|-------------------|
 | First time setup, "how do I connect", SSH keys | [references/setup.md](references/setup.md) |
+| Set up Git and GitHub for deployment | [references/setup-git-github.md](references/setup-git-github.md) |
+| Detect installed software or supported CMS | [references/software-detection.md](references/software-detection.md) |
+| Detect local development tooling or dev container setup | [references/local-development.md](references/local-development.md) |
+| WordPress config for local and fortrabbit environments | [references/wordpress.md](references/wordpress.md) |
 | Deploy, push code, trigger deployment, deploy hook | [references/deploy.md](references/deploy.md) |
 | Run a remote command, artisan, craft console, php script | [references/ssh-exec.md](references/ssh-exec.md) |
 | Database: pull, push, dump, restore, migrate | [references/database.md](references/database.md) |
-| Content sync, rsync uploads, sync assets, sync down | [references/content-sync.md](references/content-sync.md) |
+| Content sync, rsync uploads, sync assets, sync down | [references/sync-content.md](references/sync-content.md) |
+| Detect git and GitHub, or fall back to full rsync sync | [references/sync.md](references/sync.md) |
+| Sync all files with rsync | [references/sync-all.md](references/sync-all.md) |
 | General help or no arguments | Show the capability summary below |
 
 ---
