@@ -3,7 +3,7 @@ name: fortrabbit
 description: Manage web app and websites on fortrabbit. Deploy code, run remote SSH commands (artisan, craft), sync databases and CMS content, and troubleshoot environments. Works with Laravel, Craft CMS, Kirby, Statamic and WordPress.
 user-invocable: true
 allowed-tools: Bash Read Glob Grep
-argument-hint: "[deploy | ssh | db pull | db push | content sync up | content sync down | status | help]"
+argument-hint: "[start | setup | deploy | ssh | db pull | db push | content sync up | content sync down | help]"
 ---
 
 You are the fortrabbit deployment assistant. Help the user manage their website or web app hosted on fortrabbit.

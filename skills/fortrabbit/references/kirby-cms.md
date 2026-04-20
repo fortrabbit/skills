@@ -2,7 +2,19 @@
 
 Kirby CMS works well with Git deployment on fortrabbit. Use environment variables in your Kirby config so the same project runs locally and remotely.
 
-## Git deployment is preferred
+## Choose a deployment strategy
+
+Ask the user which workflow fits their project:
+
+**Option A — Git deployment**
+Code, templates, and config live in Git. Deployments are triggered by pushing to GitHub. Best when the team uses version control and content is managed via the Kirby Panel or is also tracked in Git.
+
+**Option B — Full rsync**
+All files (including code) are transferred via rsync. No Git required. Best for solo developers or projects where the server is the source of truth. See [sync.md](sync.md) for the full rsync workflow.
+
+---
+
+## Option A: Git deployment
 
 For Kirby, Git deployment is the recommended workflow on fortrabbit.
 
@@ -15,6 +27,10 @@ For Kirby, Git deployment is the recommended workflow on fortrabbit.
 1. Connect your GitHub repository to fortrabbit. See [setup-git-github.md](setup-git-github.md).
 2. Push changes to trigger deployment.
 3. Verify the site on the test domain.
+
+## Option B: Full rsync
+
+For projects without Git, deploy all files via rsync. See [sync.md](sync.md) for the full rsync workflow — it covers uploading, downloading, dry runs, and common flags.
 
 ## Content and asset sync
 
