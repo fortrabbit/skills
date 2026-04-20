@@ -4,21 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**fortrabbit/agent-plugin** is a multi-platform AI assistant plugin for managing PHP web applications hosted on fortrabbit. It ships instructional content consumed by Claude Code, GitHub Copilot, Google Gemini CLI, and OpenAI Codex — there is no build step, no compiled code, and no tests.
+**fortrabbit/agent-plugin** is a multi-platform AI assistant plugin for managing PHP web applications hosted on fortrabbit. It ships instructional content consumed by Claude Code, OpenAI Codex, and GitHub Copilot — there is no build step, no compiled code, and no tests.
 
 ## Architecture
 
-The project provides the same operational guidance in four platform-specific formats:
+The project provides the same operational guidance in platform-specific formats:
 
-| File | Platform |
-|------|----------|
-| `SKILL.md` | Claude Code (primary entry point, YAML frontmatter + Markdown) |
-| `GEMINI.md` + `gemini-extension.json` | Google Gemini CLI |
-| `AGENTS.md` | OpenAI Codex |
+| File / Path | Platform |
+|-------------|----------|
+| `skills/fortrabbit/SKILL.md` | Claude Code + OpenAI Codex (canonical source) |
+| `AGENTS.md` | OpenAI Codex contributor context (mirrors this file) |
 | `.github/instructions/fortrabbit.instructions.md` | GitHub Copilot |
-| `.claude-plugin/plugin.json` | Claude Code plugin manifest |
 
-`SKILL.md` is the canonical source. When updating operational guidance, changes must be propagated consistently to all four platform formats.
+`skills/fortrabbit/SKILL.md` is the canonical source. When updating operational guidance, propagate changes to `.github/instructions/fortrabbit.instructions.md`.
 
 ### Skill reference files
 
@@ -28,7 +26,7 @@ The project provides the same operational guidance in four platform-specific for
 - `deploy.md` — Git push and deploy hook workflows
 - `ssh-exec.md` — Remote command syntax per framework
 - `database.md` — SSH tunnel setup and DB pull/push procedures
-- `content-sync.md` — Per-framework rsync paths and examples
+- `sync-content.md` — Per-framework rsync paths and examples
 
 ## Key Conventions
 
