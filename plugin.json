@@ -19,7 +19,7 @@
     "ssh",
     "hosting"
   ],
-  "skills": "./skills/SKILL.md",
+  "skills": "./skills/fortrabbit/",
   "copilotInstructions": "./.github/instructions/fortrabbit.instructions.md",
   "geminiExtension": "./gemini-extension.json"
 }

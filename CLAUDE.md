@@ -22,7 +22,7 @@ The project provides the same operational guidance in four platform-specific for
 
 ### Skill reference files
 
-`skills/references/` contains operation guides loaded contextually by `SKILL.md`:
+`skills/fortrabbit/references/` contains operation guides loaded contextually by `SKILL.md`:
 
 - `setup.md` — SSH key setup and connection troubleshooting
 - `deploy.md` — Git push and deploy hook workflows

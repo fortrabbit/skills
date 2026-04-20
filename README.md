@@ -20,7 +20,9 @@ Supports: Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP.
 
 ### Claude Code
 
-Clone the repo, then start Claude Code with `--plugin-dir`:
+#### Option A — Plugin install (namespaced as `/fortrabbit:fortrabbit`)
+
+Clone the repo, then start Claude Code with `--plugin-dir`. The skill is invoked as `/fortrabbit:fortrabbit` (plugin namespace + skill name).
 
 **Per project:**
 
@@ -36,13 +38,46 @@ git clone https://github.com/fortrabbit/agent-plugin ~/.claude/plugins/fortrabbi
 claude --plugin-dir ~/.claude/plugins/fortrabbit
 ```
 
-> **Note:** The `git clone` alone does not register the plugin — Claude Code does not auto-discover plugins from the plugins directory. The `--plugin-dir` flag is required until marketplace-based installation (`/plugin install fortrabbit`) is available.
+> **Note:** `--plugin-dir` must be passed every Claude Code session. Add a shell alias to avoid repeating it:
+> ```shell
+> alias claude='claude --plugin-dir ~/.claude/plugins/fortrabbit'
+> ```
 
-Add to `.gitignore` if you don't want to commit it:
+Add to `.gitignore` if you don't want to commit the plugin:
 
 ```shell
 echo ".claude/plugins/" >> .gitignore
 ```
+
+#### Option B — Standalone install (short `/fortrabbit` name, persistent)
+
+Copy the skill directly into `.claude/skills/`. This gives the short `/fortrabbit` command with no namespace, and no `--plugin-dir` flag needed on every session.
+
+**Per project:**
+
+```shell
+git clone https://github.com/fortrabbit/agent-plugin /tmp/fortrabbit-plugin
+mkdir -p .claude/skills/fortrabbit
+cp -r /tmp/fortrabbit-plugin/skills/fortrabbit/. .claude/skills/fortrabbit/
+```
+
+**Globally:**
+
+```shell
+git clone https://github.com/fortrabbit/agent-plugin /tmp/fortrabbit-plugin
+mkdir -p ~/.claude/skills/fortrabbit
+cp -r /tmp/fortrabbit-plugin/skills/fortrabbit/. ~/.claude/skills/fortrabbit/
+```
+
+#### Option C — Marketplace (coming soon)
+
+Once available in the Anthropic plugin marketplace, install with:
+
+```shell
+/plugin install fortrabbit
+```
+
+This gives `/fortrabbit:fortrabbit` persistently across sessions with no flags or manual copying. Submit URL: https://claude.ai/settings/plugins/submit
 
 ### GitHub Copilot
 

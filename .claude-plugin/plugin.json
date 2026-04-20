@@ -11,5 +11,5 @@
   "repository": "https://github.com/fortrabbit/agent-plugin",
   "license": "MIT",
   "keywords": ["hosting", "deployment", "php", "laravel", "craft-cms", "kirby", "statamic", "wordpress"],
-  "skills": "../skills/"
+  "skills": "../skills/fortrabbit/"
 }
