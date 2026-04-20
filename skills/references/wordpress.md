@@ -103,7 +103,7 @@ rsync -av ./wp-content/plugins/ APP_ENV_ID@ssh.REGION.frbit.app:./wp-content/plu
 # Add other directories as needed
 ```
 
-For full rsync sync, see [sync-all.md](sync-all.md).
+For full rsync sync, see [sync.md](sync.md).
 
 ## After code deployment: Update the database
 

@@ -61,6 +61,10 @@ then the repository is likely not fully configured for local development yet.
 [ -f wp-config.php ] && echo "WordPress site"
 ```
 
+## SSH key check
+
+Before connecting to fortrabbit, confirm the user has an SSH key set up locally and registered in the dashboard. See [ssh-key-setup.md](ssh-key-setup.md).
+
 ## What to do if no local development setup is detected
 
 No local development environment was detected in this folder. If you have a different setup that is not covered here, let us know and we can try to adapt the guidance.

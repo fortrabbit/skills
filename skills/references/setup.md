@@ -1,13 +1,23 @@
 # Setup: Connecting to fortrabbit via SSH
 
+## Step 0 — Do you have a fortrabbit app?
+
+Before anything else, ask the user:
+
+> "Do you already have an app on fortrabbit?"
+
+**If no:** Ask whether they have a fortrabbit account.
+
+- **No account yet:** Direct them to sign up at [dash.fortrabbit.com/signup](https://dash.fortrabbit.com/signup) — there is a free trial, no credit card required to start. Once signed up, they can create an App from the dashboard. Walk them through that before continuing.
+- **Account but no app:** Direct them to the dashboard to create a new App: [dash.fortrabbit.com/new/app](https://dash.fortrabbit.com/new/app) — once the app is created, the dashboard shows the environment ID and region needed below.
+
+**If yes:** Continue with the prerequisites below.
+
+---
+
 ## Prerequisites
 
-You need an SSH key pair registered with your fortrabbit account. If you haven't done this yet:
-
-1. Check if you have an existing key: `ls ~/.ssh/id_*.pub`
-2. If not, generate one: `ssh-keygen -t ed25519 -C "your@email.com"`
-3. Add the public key in the fortrabbit dashboard under: **Account → SSH keys**
-   - Dashboard URL: https://dash.fortrabbit.com/you/ssh-keys
+You need an SSH key pair, locally and the public part registered with your fortrabbit account. See [ssh-key-setup.md](ssh-key-setup.md).
 
 ## Test the connection
 
@@ -16,7 +26,7 @@ You need an SSH key pair registered with your fortrabbit account. If you haven't
 ssh APP_ENV_ID@ssh.REGION.frbit.app echo "Connection OK"
 ```
 
-A successful connection prints the fortrabbit welcome banner followed by "Connection OK". If you see a permission denied error, the SSH key is not registered or not being sent.
+A successful connection prints the fortrabbit welcome banner followed by "Connection OK". If you see a permission denied error, the SSH key is not registered or not being sent — follow [ssh-key-setup.md](ssh-key-setup.md).
 
 ## Finding your app environment ID and region
 
@@ -49,26 +59,4 @@ Your `.env` should already be in `.gitignore`. If not:
 
 ```shell
 echo ".env" >> .gitignore
-```
-
-## Troubleshooting
-
-**Permission denied (publickey)**
-
-- Confirm your public key is in the fortrabbit dashboard.
-- Run `ssh-add ~/.ssh/id_ed25519` to make sure the key is loaded.
-- Try `ssh -v APP_ENV_ID@ssh.REGION.frbit.app` for verbose output.
-
-**Connection timeout**
-
-- Verify the environment ID and region are correct.
-- Check that port 22 is not blocked by a firewall.
-
-**Multiple SSH keys**
-
-If you have multiple keys, add an entry to `~/.ssh/config`:
-
-```text
-Host ssh.*.frbit.app
-  IdentityFile ~/.ssh/your_fortrabbit_key
 ```

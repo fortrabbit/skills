@@ -35,7 +35,9 @@ Classify what the user wants, then load the appropriate reference file:
 
 | User intent | Reference to load |
 |-------------|-------------------|
+| No arguments, first run, onboarding, "get started", "what can you do" | [references/start.md](references/start.md) |
 | First time setup, "how do I connect", SSH keys | [references/setup.md](references/setup.md) |
+| SSH key generation, adding key to dashboard | [references/ssh-key-setup.md](references/ssh-key-setup.md) |
 | Set up Git and GitHub for deployment | [references/setup-git-github.md](references/setup-git-github.md) |
 | Detect installed software or supported CMS | [references/software-detection.md](references/software-detection.md) |
 | Craft CMS config for local and fortrabbit environments | [references/craft-cms.md](references/craft-cms.md) |
@@ -46,14 +48,13 @@ Classify what the user wants, then load the appropriate reference file:
 | Run a remote command, artisan, craft console, php script | [references/ssh-exec.md](references/ssh-exec.md) |
 | Database: pull, push, dump, restore, migrate | [references/database.md](references/database.md) |
 | Content sync, rsync uploads, sync assets, sync down | [references/sync-content.md](references/sync-content.md) |
-| Detect git and GitHub, or fall back to full rsync sync | [references/sync.md](references/sync.md) |
+| Sync all files with rsync (no Git available) | [references/sync.md](references/sync.md) |
 | Review changes in browser using test domain | [references/browser-review.md](references/browser-review.md) |
-| Sync all files with rsync | [references/sync-all.md](references/sync-all.md) |
-| General help or no arguments | Show the capability summary below |
+| General help | Show the capability summary below |
 
 ---
 
-## Capability summary (shown for `/fortrabbit help` or no arguments)
+## Capability summary (shown for `/fortrabbit help`)
 
 ```
 fortrabbit skills — v0.1

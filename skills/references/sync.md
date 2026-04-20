@@ -1,40 +1,8 @@
 # Sync all files via rsync
 
-## Check for Git
+Use this when Git and GitHub are not available. For Git-based deployment, see [deploy.md](deploy.md).
 
-First, determine if the current directory is a Git repository:
-
-```bash
-ls -la .git
-```
-
-If a `.git` directory exists, the folder is a Git repository.
-
-## If Git repository
-
-### Check for GitHub remote
-
-Check if the repository is connected to a GitHub remote:
-
-```bash
-git remote -v
-```
-
-Look for an `origin` remote pointing to `github.com`.
-
-### If connected to GitHub
-
-Suggest deployment via Git push or deploy hook. See [deploy.md](deploy.md) for deployment commands and options.
-
-### If not connected to GitHub
-
-Fall back to rsync for syncing all files.
-
-## Rsync commands
-
-When using rsync to sync all files, use the following commands.
-
-### Upload all files to remote
+## Upload all files to remote
 
 ```bash
 rsync -av \
@@ -44,14 +12,28 @@ rsync -av \
   --exclude='.env.local' \
   --exclude='.DS_Store' \
   --exclude='node_modules/' \
-  ./ {{app-env-id}}@ssh.{{region}}.frbit.app:
+  ./ APP_ENV_ID@ssh.REGION.frbit.app:
 ```
 
-### Download all files from remote
+## Download all files from remote
 
 ```bash
-rsync -av {{app-env-id}}@ssh.{{region}}.frbit.app: ./
+rsync -av APP_ENV_ID@ssh.REGION.frbit.app: ./
 ```
 
-For more rsync options and details, see the [rsync documentation](https://docs.fortrabbit.com/dev/how-to/rsync#usage).
+> **Warning:** Downloading overwrites local files. Confirm with the user before running a down-sync.
 
+## Common rsync flags
+
+| Flag | Meaning |
+|------|---------|
+| `-a` | Archive: preserves permissions, timestamps, symlinks |
+| `-v` | Verbose: shows what is being transferred |
+| `-n` | Dry run: preview without transferring |
+| `--delete` | Remove remote files no longer present locally (use with caution) |
+
+Run a dry run first when unsure:
+
+```bash
+rsync -avn ./ APP_ENV_ID@ssh.REGION.frbit.app:
+```

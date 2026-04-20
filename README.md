@@ -6,6 +6,7 @@ Version 0.1 — early preview. Uses SSH directly.
 
 ## What it does
 
+- **setup** — guides you getting boarded
 - **deploy** — trigger a deployment via deploy hook or remind you to push to your Git remote
 - **ssh** — run remote commands (artisan, craft console, Composer)
 - **db pull** — download the remote database to your local environment
@@ -13,39 +14,26 @@ Version 0.1 — early preview. Uses SSH directly.
 - **content sync** — rsync CMS content up or down (Kirby, Statamic, WordPress, Craft CMS, Laravel)
 - **help** — show all available commands
 
-Supports: Laravel, Craft CMS (4, 5), Kirby, Statamic, WordPress, and generic PHP.
+Supports: Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP.
 
 ## Install
 
 ### Claude Code
 
-```shell
-# Idea
-/plugin install fortrabbit
-```
+Clone the repo, then start Claude Code with `--plugin-dir`:
 
-Or manually — **globally** (available in all projects):
-
-```shell
-git clone https://github.com/fortrabbit/agent-plugin ~/.claude/plugins/fortrabbit
-```
-
-Then start Claude Code with the `--plugin-dir` flag to activate it:
-
-```shell
-claude --plugin-dir ~/.claude/plugins/fortrabbit
-```
-
-Or **per project** (checked into your project repo):
+**Per project:**
 
 ```shell
 git clone https://github.com/fortrabbit/agent-plugin .claude/plugins/fortrabbit
+claude --plugin-dir .claude/plugins/fortrabbit
 ```
 
-Then start Claude Code from your project root with:
+**Globally:**
 
 ```shell
-claude --plugin-dir .claude/plugins/fortrabbit
+git clone https://github.com/fortrabbit/agent-plugin ~/.claude/plugins/fortrabbit
+claude --plugin-dir ~/.claude/plugins/fortrabbit
 ```
 
 > **Note:** The `git clone` alone does not register the plugin — Claude Code does not auto-discover plugins from the plugins directory. The `--plugin-dir` flag is required until marketplace-based installation (`/plugin install fortrabbit`) is available.
@@ -90,26 +78,6 @@ cat >> AGENTS.md < <(curl -s \
 
 Codex reads `AGENTS.md` from `~/.codex/` globally and from the project root, merging both.
 
-## Configuration
-
-Create a `.fortrabbit` file in your project root — this file contains no secrets and can be committed:
-
-```text
-app-env-id=en-xxxxxx
-region=eu-w1a
-```
-
-If you use a deploy hook, store only the secret token in `.env` (which should already be gitignored):
-
-```text
-FORTRABBIT_DEPLOY_HOOK_SECRET=your-secret-token
-```
-
-The deploy hook URL is constructed automatically from `app-env-id` and the secret.
-
-On first use without a config file, the assistant will ask for your app environment ID and region. Both are shown in the [fortrabbit dashboard](https://dash.fortrabbit.com).
-
 ## Requirements
 
-- An SSH key registered with the [fortrabbit dashboard](https://dash.fortrabbit.com/you/ssh-keys)
 - `ssh`, `rsync`, and `mysql`/`mysqldump` available in your local terminal
