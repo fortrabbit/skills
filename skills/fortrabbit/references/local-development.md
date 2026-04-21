@@ -107,10 +107,6 @@ Note whether:
 - A remote named `origin` points to `github.com`
 - The GitHub CLI (`gh`) is authenticated: `gh auth status 2>/dev/null`
 
-## SSH key check
-
-Before connecting to fortrabbit, confirm the user has an SSH key set up locally and registered in the dashboard. See [ssh-key-setup.md](ssh-key-setup.md).
-
 ## What to do if no local development setup is detected
 
 No local development environment was detected in this folder.
@@ -144,5 +140,3 @@ When PHP is available and a local MySQL server is running, offer the native stac
 
 Learn more in the fortrabbit local development docs:
 https://docs.fortrabbit.com/integrations/local-development/intro
-
-This file is meant to help detect existing local development configuration, not to replace a full setup guide.

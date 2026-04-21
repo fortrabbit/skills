@@ -57,6 +57,8 @@ The user has no local project yet.
    - Laravel
    - Generic PHP
 
-2. Load `local-development.md` to check whether DDEV or another local dev tool is already available. If nothing is set up, direct the user to install DDEV from [ddev.readthedocs.io](https://ddev.readthedocs.io) and scaffold a project for the chosen software.
+2. Load `local-development.md` to check whether DDEV or another local dev tool is available.
 
-3. Once the local project is running, continue with Path A.
+3. Load the matching framework guide (`wordpress.md`, `craft-cms.md`, `statamic.md`, or `kirby-cms.md`) — each includes local installation steps.
+
+4. Once the local project is running, continue with Path A.

@@ -127,28 +127,10 @@ rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./wp-content/uploads/ ./wp-content/upl
 
 ---
 
-## Generic rsync flags
-
-| Flag | Meaning |
-|------|---------|
-| `-a` | Archive mode: preserves permissions, timestamps, symlinks |
-| `-v` | Verbose: shows what is being transferred |
-| `-R` | Relative paths: preserves directory structure |
-| `-n` | Dry run: shows what would be synced without doing it |
-| `--delete` | Remove remote files that no longer exist locally (use with caution) |
-
-## Dry run first
-
-When unsure, add `-n` to preview what will be transferred:
-
-```shell
-rsync -avn ./content/ APP_ENV_ID@ssh.REGION.frbit.app:./content/
-```
-
 ## Notes
 
 - rsync uses your local SSH key — the same key registered in the dashboard.
 - Syncing down overwrites local files. Warn the user before running a down-sync.
-- Do not sync the `vendor/` folder unless you intentionally want to overwrite Composer dependencies on the remote.
+- For rsync flags and dry-run usage, see [sync.md](sync.md).
 
 After syncing content, review the changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.

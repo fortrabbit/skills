@@ -119,12 +119,4 @@ Once connected, pushes to the mapped branches will trigger automatic deployments
 
 ## Verify setup
 
-After setup, you can deploy by pushing to GitHub:
-
-```bash
-git add .
-git commit -m "Deploy changes"
-git push origin main
-```
-
-Check the deployment status in the fortrabbit dashboard under **Environment → Deployments**.
+Once connected, trigger your first deployment — see [deploy.md](deploy.md).

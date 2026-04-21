@@ -50,9 +50,12 @@ fi
 
 ## What to do if software is detected
 
-- If WordPress is detected, use `wordpress.md` for configuration guidance.
-- If Craft CMS is detected, use `sync-content.md` and `deploy.md` for environment setup and deployment.
-- If Statamic or Kirby is detected, use the content sync and local development references for the correct workflow.
+Load the matching framework guide for deployment and configuration guidance:
+
+- WordPress → `wordpress.md`
+- Craft CMS → `craft-cms.md`
+- Statamic → `statamic.md`
+- Kirby CMS → `kirby-cms.md`
 
 ## What to do if you only see PHP code
 
@@ -66,9 +69,5 @@ If there is PHP code but no clear CMS files:
 
 If there is nothing installed yet, explain that the user should create or clone a project first.
 
-Example guidance:
-
 - "This folder does not contain a supported CMS installation yet. Create a WordPress, Craft CMS, Statamic, or Kirby project locally first."
-- "Once you have an installed application, rerun the detection steps to continue." 
-
-This reference is meant to determine the installed software stack, not to set up local development tooling itself.
+- "Once you have an installed application, rerun the detection steps to continue."

@@ -6,6 +6,8 @@ Statamic is file-based like Kirby, but built on Laravel — so both file-sync an
 
 Check whether a Statamic project exists in the current folder — see [software-detection.md](software-detection.md). If no project is found, check the local development environment first — see [local-development.md](local-development.md).
 
+## Install Statamic locally
+
 If no Statamic project exists yet, install one:
 
 ```bash
