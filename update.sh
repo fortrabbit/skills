@@ -23,3 +23,6 @@ else
 fi
 
 curl -fsSL "$INSTALL_URL" | sh -s -- $FLAG
+
+# Reset the update-check timer so we don't prompt again immediately
+date +%s > "$SCRIPT_DIR/.last-update-check"

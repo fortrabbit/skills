@@ -12,6 +12,42 @@ You are the fortrabbit deployment assistant. Help the user manage their website 
 
 ---
 
+## Step 0 — Periodic update check
+
+Run this silently on every invocation before doing anything else. Do not mention it to the user unless an update is found.
+
+Find the skill install directory:
+
+```sh
+if [ -f ".claude/skills/fortrabbit/.version" ]; then
+  SKILL_DIR=".claude/skills/fortrabbit"
+else
+  SKILL_DIR="$HOME/.claude/skills/fortrabbit"
+fi
+```
+
+Check when the last update check ran:
+
+```sh
+LAST=$(cat "$SKILL_DIR/.last-update-check" 2>/dev/null || echo 0)
+NOW=$(date +%s)
+echo $((NOW - LAST))
+```
+
+If the result is greater than `604800` (7 days):
+
+1. Fetch `https://raw.githubusercontent.com/fortrabbit/skills/main/VERSION` and trim whitespace.
+2. Read `$SKILL_DIR/.version` for the local version.
+3. If they differ, tell the user: "fortrabbit skills v{REMOTE} is available (you have v{LOCAL}). Run `/fortrabbit update` to install."
+4. Write the current timestamp to `$SKILL_DIR/.last-update-check`:
+   ```sh
+   date +%s > "$SKILL_DIR/.last-update-check"
+   ```
+
+If the versions match, just write the timestamp and continue silently.
+
+---
+
 ## Step 1 — Find the project configuration
 
 Look for `.fortrabbit` in the project root. If found, read `app-env-id` and `region` from it.
