@@ -41,14 +41,10 @@ The `WP_HOME` and `WP_SITEURL` constants are evaluated on every WordPress page l
 ## How this works
 
 - On fortrabbit: the remote environment sets `FORTRABBIT_MAIN_DOMAIN` to your live domain, so WordPress uses HTTPS URLs.
-- Locally: falls back to your local development URL with HTTP.
-- This prevents WordPress from hardcoding URLs in the database and makes the same `wp-config.php` work in both environments.
-
-## How this works
-
-- On fortrabbit: the remote environment sets `FORTRABBIT_DB_HOST`, `FORTRABBIT_DB_NAME`, `FORTRABBIT_DB_USER`, and `FORTRABBIT_DB_PASSWORD` env vars.
-- Locally: the same `wp-config.php` can use a local `.env` file or shell environment for development.
-- The `?:` fallback allows local development without needing the remote env vars.
+- On fortrabbit: `FORTRABBIT_DB_HOST`, `FORTRABBIT_DB_NAME`, `FORTRABBIT_DB_USER`, and `FORTRABBIT_DB_PASSWORD` are set automatically.
+- Locally: the same `wp-config.php` falls back to your local development URL and database credentials.
+- The `?:` fallback and `FORTRABBIT_MAIN_DOMAIN` check mean no remote env vars are needed in local development.
+- This prevents WordPress from hardcoding URLs in the database and keeps the same `wp-config.php` portable across environments.
 
 ## Example local environment
 
@@ -82,28 +78,19 @@ On fortrabbit, configure the database credentials in the environment settings so
 
 After configuring WordPress for both environments, choose how to deploy your code changes:
 
-### Option 1: Deploy via Git
+### Option 1: Sync via rsync (recommended)
 
-If your project is connected to GitHub and the fortrabbit GitHub App:
+Sync files manually with rsync. For full rsync sync, see [sync.md](sync.md).
+
+### Option 2: Deploy via Git
+
+Git deployment is not recommended for Wordpress. If your project is anyhow connected to GitHub and the fortrabbit GitHub App:
 
 1. Push your changes to GitHub: `git push origin main`
 2. The fortrabbit GitHub App will automatically trigger a deployment
 3. Check deployment status in the dashboard
 
 For setup instructions, see [setup-git-github.md](setup-git-github.md).
-
-### Option 2: Sync via rsync (recommended)
-
-If Git deployment is not set up, sync files manually with rsync:
-
-```bash
-# Upload code to remote
-rsync -av ./wp-content/themes/ APP_ENV_ID@ssh.REGION.frbit.app:./wp-content/themes/
-rsync -av ./wp-content/plugins/ APP_ENV_ID@ssh.REGION.frbit.app:./wp-content/plugins/
-# Add other directories as needed
-```
-
-For full rsync sync, see [sync.md](sync.md).
 
 ## After code deployment: Update the database
 

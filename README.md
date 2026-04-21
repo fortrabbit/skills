@@ -23,13 +23,13 @@ Supports: Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP.
 Run this in your project root:
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/fortrabbit/agent-plugin/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh
 ```
 
 Or to install globally (available in all projects):
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/fortrabbit/agent-plugin/main/install.sh | sh -s -- --global
+curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh -s -- --global
 ```
 
 The script installs the skill for **Claude Code**, **OpenAI Codex**, and **GitHub Copilot** in one go.

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-REPO_URL="https://github.com/fortrabbit/agent-plugin/archive/refs/heads/main.tar.gz"
+REPO_URL="https://github.com/fortrabbit/skills/archive/refs/heads/main.tar.gz"
 GLOBAL=false
 
 for arg in "$@"; do

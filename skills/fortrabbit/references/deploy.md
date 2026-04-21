@@ -6,14 +6,14 @@ Before proceeding, ask the user what they want to deploy:
 
 > "Do you want to deploy **code** (via Git), or sync **files** (via rsync)?"
 
-- **Code deploy** — pushing PHP files, templates, config: use Git (continue below)
+- **Git deployment** — pushing files, templates, config (continue below)
 - **File sync** — rsync all project files to remote without Git: see [sync.md](sync.md)
 
 If the intent is unclear, default to asking.
 
 ## Prerequisites
 
-Git must be initialized and the repository connected to a GitHub remote. If either is missing, see [setup-git-github.md](setup-git-github.md) first. If you cannot use GitHub, fall back to rsync via [sync.md](sync.md).
+Only, if the user selected Git deployment, continue here. Git must be initialized and the repository connected to a GitHub remote. If either is missing, see [setup-git-github.md](setup-git-github.md) first. If you cannot use GitHub, fall back to rsync via [sync.md](sync.md).
 
 ## How deployment works
 

@@ -29,6 +29,16 @@ The SSH host is always: `APP_ENV_ID@ssh.REGION.frbit.app`
 
 ---
 
+## Fetching fortrabbit docs
+
+When fetching any `https://docs.fortrabbit.com/` URL, rewrite it to the raw markdown source before fetching:
+
+`https://docs.fortrabbit.com/guides/foo/bar` → `https://docs.fortrabbit.com/raw/guides/foo/bar.md`
+
+This gives clean markdown instead of HTML.
+
+---
+
 ## Step 2 — Route by intent
 
 Classify what the user wants, then load the appropriate reference file:
@@ -68,6 +78,7 @@ fortrabbit skills — v0.1
   /fortrabbit help           Show this message
 
 Docs: https://docs.fortrabbit.com
+Docs (LLM-friendly): https://docs.fortrabbit.com/llms.txt
 Dashboard: https://dash.fortrabbit.com
 ```
 

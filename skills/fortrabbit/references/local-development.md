@@ -45,6 +45,33 @@ If you find:
 
 then the repository is likely not fully configured for local development yet.
 
+## Look for local PHP and MySQL
+
+Check whether PHP and MySQL are available natively on the machine (outside any container).
+
+```shell
+# PHP
+php --version 2>/dev/null && echo "PHP found"
+
+# MySQL client
+mysql --version 2>/dev/null && echo "MySQL client found"
+
+# MySQL server running (macOS / Linux)
+mysqladmin ping 2>/dev/null && echo "MySQL server responding"
+# or
+pgrep -x mysqld >/dev/null 2>&1 && echo "mysqld process running"
+pgrep -x mysql.server >/dev/null 2>&1 && echo "mysql.server process running"
+```
+
+Common native-stack installations to check for:
+
+- **Homebrew (macOS):** `brew services list | grep mysql` — look for `started`
+- **Valet (macOS):** check for `~/.config/valet/` or run `valet status`
+- **MAMP / XAMPP:** check for `/Applications/MAMP` or `/Applications/XAMPP`
+- **Herd (macOS):** check for `~/.config/herd/` or run `herd status`
+
+If both PHP and a running MySQL server are found, a native local stack is a viable option — see below.
+
 ## Recommended checks
 
 ```shell
@@ -54,6 +81,13 @@ then the repository is likely not fully configured for local development yet.
 [ -f .lando.yml ] && echo "Lando detected"
 [ -f docker-compose.yml ] && echo "Docker Compose detected"
 [ -f .devcontainer/devcontainer.json ] && echo "Dev Container detected"
+
+# Native stack
+php --version 2>/dev/null && echo "PHP available"
+mysqladmin ping 2>/dev/null && echo "MySQL server running"
+[ -d ~/.config/valet ] && echo "Laravel Valet config found"
+[ -d ~/.config/herd ] && echo "Laravel Herd config found"
+[ -d /Applications/MAMP ] && echo "MAMP found"
 
 # Additional clues
 [ -f .env ] && echo ".env found"
@@ -67,9 +101,29 @@ Before connecting to fortrabbit, confirm the user has an SSH key set up locally 
 
 ## What to do if no local development setup is detected
 
-No local development environment was detected in this folder. If you have a different setup that is not covered here, let us know and we can try to adapt the guidance.
+No local development environment was detected in this folder.
 
-If you do not have a local setup yet, we recommend using DDEV.
+**Ask the user about their preference before suggesting a setup.** A good prompt:
+
+> "No local development environment was found in this project. How would you like to set one up? Options depend on what's available on your machine:
+>
+> - **DDEV** (Docker-based, cross-platform, recommended for teams)
+> - **Native PHP + MySQL** (if PHP and MySQL are already running locally — lighter weight, no Docker required)
+> - **Laravel Valet / Herd** (macOS only, zero-config for Laravel and other PHP apps)
+> - **Lando** (Docker-based, flexible)
+> - **Skip for now** and work with the remote environment only"
+
+### If native PHP + MySQL are present
+
+When PHP is available and a local MySQL server is running, offer the native stack as a first-class option — it requires no additional tooling:
+
+1. Create a local database: `mysql -u root -e "CREATE DATABASE myapp;"`
+2. Copy `.env.example` to `.env` and set `DB_HOST=127.0.0.1`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
+3. Run `composer install`.
+4. Run framework-specific setup (e.g. `php artisan key:generate` for Laravel, `php craft setup` for Craft).
+5. Use the built-in PHP server (`php -S localhost:8000 -t public`) or configure a virtual host in Valet/Herd/MAMP.
+
+### If no native stack is found — recommend DDEV
 
 - Create a DDEV project for the current folder.
 - Add a `.env` file or env loader to keep settings portable.
