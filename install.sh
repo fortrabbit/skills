@@ -30,11 +30,19 @@ curl -fsSL "$REPO_URL" | tar xz -C "$TMP" --strip-components=1
 # Claude Code
 mkdir -p "$CLAUDE_DIR"
 cp -r "$TMP/skills/fortrabbit/." "$CLAUDE_DIR/"
+cp "$TMP/VERSION" "$CLAUDE_DIR/.version"
+cp "$TMP/update.sh" "$CLAUDE_DIR/update.sh"
+cp "$TMP/uninstall.sh" "$CLAUDE_DIR/uninstall.sh"
+chmod +x "$CLAUDE_DIR/update.sh" "$CLAUDE_DIR/uninstall.sh"
 echo "  Claude Code  →  $CLAUDE_DIR"
 
 # OpenAI Codex
 mkdir -p "$CODEX_DIR"
 cp -r "$TMP/skills/fortrabbit/." "$CODEX_DIR/"
+cp "$TMP/VERSION" "$CODEX_DIR/.version"
+cp "$TMP/update.sh" "$CODEX_DIR/update.sh"
+cp "$TMP/uninstall.sh" "$CODEX_DIR/uninstall.sh"
+chmod +x "$CODEX_DIR/update.sh" "$CODEX_DIR/uninstall.sh"
 echo "  Codex        →  $CODEX_DIR"
 
 # GitHub Copilot (per-project only — instructions are repo-scoped)

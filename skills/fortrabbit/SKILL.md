@@ -60,6 +60,8 @@ Classify what the user wants, then load the appropriate reference file:
 | Content sync, rsync uploads, sync assets, sync down | [references/sync-content.md](references/sync-content.md) |
 | Sync all files with rsync (no Git available) | [references/sync.md](references/sync.md) |
 | Review changes in browser using test domain | [references/browser-review.md](references/browser-review.md) |
+| Update the skill files to the latest version | Run the update command below |
+| Uninstall, remove the skill files | Run the uninstall command below |
 | General help | Show the capability summary below |
 
 ---
@@ -75,12 +77,40 @@ fortrabbit skills — v0.1
   /fortrabbit db push        Upload your local database to the remote environment
   /fortrabbit content sync   Rsync CMS content up or down (Kirby, Statamic)
   /fortrabbit status         Show the configured environment and project type
+  /fortrabbit update         Check for updates and install the latest version
+  /fortrabbit uninstall      Remove all installed skill files
   /fortrabbit help           Show this message
 
 Docs: https://docs.fortrabbit.com
 Docs (LLM-friendly): https://docs.fortrabbit.com/llms.txt
 Dashboard: https://dash.fortrabbit.com
 ```
+
+---
+
+## Uninstall command
+
+When the user invokes `/fortrabbit uninstall`:
+
+1. Look for `uninstall.sh` in `.claude/skills/fortrabbit/uninstall.sh` (project) or `~/.claude/skills/fortrabbit/uninstall.sh` (global).
+2. If found, run it with `sh uninstall.sh` from its directory. It will list what will be removed and ask for confirmation before deleting anything.
+3. If not found, tell the user to manually delete the skill directories:
+   - Project: `.claude/skills/fortrabbit/`, `.agents/skills/fortrabbit/`, `.github/instructions/fortrabbit.instructions.md`
+   - Global: `~/.claude/skills/fortrabbit/`, `~/.agents/skills/fortrabbit/`
+
+---
+
+## Update command
+
+When the user invokes `/fortrabbit update`:
+
+1. Look for `update.sh` in `.claude/skills/fortrabbit/update.sh` (project) or `~/.claude/skills/fortrabbit/update.sh` (global).
+2. If found, run it with `bash update.sh` from its directory. It will compare versions and reinstall if a newer version is available.
+3. If not found (old install without update.sh), show this command and ask the user to run it manually:
+   ```
+   curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh
+   ```
+   (append ` -s -- --global` for a global install)
 
 ---
 
