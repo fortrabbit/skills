@@ -1,4 +1,4 @@
-# Setup: Connecting to fortrabbit via SSH
+# Setup: Start using fortrabbit
 
 ## Step 1 — Do you have a fortrabbit account?
 
@@ -35,7 +35,7 @@ Full SSH address: `en-xxxxxx@ssh.xxxxxx.frbit.app`
 
 ## Step 4 — Save the config locally
 
-Create a `.fortrabbit` file in your project root:
+Create a `.fortrabbit` file in your project root, if not already present:
 
 ```
 app-env-id=en-xxxxxx
@@ -43,18 +43,6 @@ region=eu-w1a
 ```
 
 This file contains no secrets and can safely be committed to Git.
-
-If you use a deploy hook, store only the secret token in `.env`:
-
-```
-FORTRABBIT_DEPLOY_HOOK_SECRET=your-secret-token
-```
-
-Your `.env` should already be in `.gitignore`. If not:
-
-```shell
-echo ".env" >> .gitignore
-```
 
 ---
 
@@ -72,3 +60,24 @@ ssh APP_ENV_ID@ssh.REGION.frbit.app echo "Connection OK"
 ```
 
 A successful connection prints the fortrabbit welcome banner followed by "Connection OK". If you see a permission denied error, the SSH key is not registered or not being sent — follow [ssh-key-setup.md](ssh-key-setup.md).
+
+## Step 7 - Continue setup
+
+Ask the user how they want to proceed from here.
+
+## Path A: Start from scratch
+
+The user has no local project yet.
+
+1. Ask which software they want to use:
+   - WordPress
+   - Craft CMS
+   - Statamic
+   - Kirby CMS
+   - Laravel
+   - Generic PHP
+2. Load matching framework guide (`wordpress.md`, `craft-cms.md`, `statamic.md`, or `kirby-cms.md`).
+
+## Path B: Continue with software specific guides
+
+Load matching framework guide (`wordpress.md`, `craft-cms.md`, `statamic.md`, or `kirby-cms.md`).

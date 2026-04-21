@@ -25,7 +25,7 @@ fortrabbit deploys code via Git. The recommended workflow:
 4. The build pipeline runs (Composer install, build commands)
 5. Post-deploy commands run (artisan migrate, cache:clear, etc.) on fortrabbit
 
-## Trigger deployment via git push
+## Trigger deployment via git push (recommended)
 
 ```shell
 # The normal workflow — push to your GitHub remote
@@ -34,7 +34,7 @@ git push origin main
 
 If your GitHub repo is connected to the fortrabbit app, this triggers a deployment automatically. Check the deployment status in the dashboard.
 
-## Trigger deployment via deploy hook
+## Trigger deployment via deploy hook (alternate option)
 
 If a deploy hook is configured, store only the secret token in `.env`:
 

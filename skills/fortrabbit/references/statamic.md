@@ -11,8 +11,7 @@ Check whether a Statamic project exists in the current folder — see [software-
 If no Statamic project exists yet, install one:
 
 ```bash
-composer create-project statamic/statamic my-statamic-site
-cd my-statamic-site
+composer create-project statamic/statamic .
 php please make:user
 ```
 
