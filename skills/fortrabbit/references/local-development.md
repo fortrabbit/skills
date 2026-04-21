@@ -95,6 +95,18 @@ mysqladmin ping 2>/dev/null && echo "MySQL server running"
 [ -f wp-config.php ] && echo "WordPress site"
 ```
 
+## Check for Git and GitHub
+
+```shell
+git rev-parse --git-dir 2>/dev/null && echo "git repo" || echo "not a git repo"
+git remote -v 2>/dev/null
+```
+
+Note whether:
+- The folder is a Git repository
+- A remote named `origin` points to `github.com`
+- The GitHub CLI (`gh`) is authenticated: `gh auth status 2>/dev/null`
+
 ## SSH key check
 
 Before connecting to fortrabbit, confirm the user has an SSH key set up locally and registered in the dashboard. See [ssh-key-setup.md](ssh-key-setup.md).
