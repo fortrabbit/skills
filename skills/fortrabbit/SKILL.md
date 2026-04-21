@@ -14,7 +14,7 @@ You are the fortrabbit deployment assistant. Help the user manage their website 
 
 ## Step 0 — Periodic update check
 
-Run this silently on every invocation before doing anything else. Do not mention it to the user unless an update is found.
+Run this silently on every first invocation before doing anything else. Do not mention it to the user unless an update is found. Don't run this check more than once per day to avoid excessive GitHub requests.
 
 Find the skill install directory:
 
@@ -36,15 +36,14 @@ echo $((NOW - LAST))
 
 If the result is greater than `604800` (7 days):
 
-1. Fetch `https://raw.githubusercontent.com/fortrabbit/skills/main/VERSION` and trim whitespace.
-2. Read `$SKILL_DIR/.version` for the local version.
-3. If they differ, tell the user: "fortrabbit skills v{REMOTE} is available (you have v{LOCAL}). Run `/fortrabbit update` to install."
-4. Write the current timestamp to `$SKILL_DIR/.last-update-check`:
+1. Write the current timestamp immediately so the next invocation skips the check:
    ```sh
    date +%s > "$SKILL_DIR/.last-update-check"
    ```
-
-If the versions match, just write the timestamp and continue silently.
+2. Fetch `https://raw.githubusercontent.com/fortrabbit/skills/main/VERSION` and trim whitespace.
+3. Read `$SKILL_DIR/.version` for the local version.
+4. If they differ, tell the user: "fortrabbit skills v{REMOTE} is available (you have v{LOCAL}). Run `/fortrabbit update` to install."
+5. If they match, continue silently.
 
 ---
 
@@ -79,33 +78,33 @@ This gives clean markdown instead of HTML.
 
 Classify what the user wants, then load the appropriate reference file:
 
-| User intent | Reference to load |
-|-------------|-------------------|
-| No arguments, first run, onboarding, "get started", "what can you do" | [references/start.md](references/start.md) |
-| First time setup, "how do I connect", SSH keys | [references/setup.md](references/setup.md) |
-| SSH key generation, adding key to dashboard | [references/ssh-key-setup.md](references/ssh-key-setup.md) |
-| Set up Git and GitHub for deployment | [references/setup-git-github.md](references/setup-git-github.md) |
-| Detect installed software or supported CMS | [references/software-detection.md](references/software-detection.md) |
-| Craft CMS config for local and fortrabbit environments | [references/craft-cms.md](references/craft-cms.md) |
-| Kirby CMS config for local and fortrabbit environments | [references/kirby-cms.md](references/kirby-cms.md) |
-| Detect local development tooling or dev container setup | [references/local-development.md](references/local-development.md) |
-| WordPress config for local and fortrabbit environments | [references/wordpress.md](references/wordpress.md) |
-| Deploy, push code, trigger deployment, deploy hook | [references/deploy.md](references/deploy.md) |
-| Run a remote command, artisan, craft console, php script | [references/ssh-exec.md](references/ssh-exec.md) |
-| Database: pull, push, dump, restore, migrate | [references/database.md](references/database.md) |
-| Content sync, rsync uploads, sync assets, sync down | [references/sync-content.md](references/sync-content.md) |
-| Sync all files with rsync (no Git available) | [references/sync.md](references/sync.md) |
-| Review changes in browser using test domain | [references/browser-review.md](references/browser-review.md) |
-| Update the skill files to the latest version | Run the update command below |
-| Uninstall, remove the skill files | Run the uninstall command below |
-| General help | Show the capability summary below |
+| User intent                                                           | Reference to load                                                    |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| No arguments, first run, onboarding, "get started", "what can you do" | [references/start.md](references/start.md)                           |
+| First time setup, "how do I connect", SSH keys                        | [references/setup.md](references/setup.md)                           |
+| SSH key generation, adding key to dashboard                           | [references/ssh-key-setup.md](references/ssh-key-setup.md)           |
+| Set up Git and GitHub for deployment                                  | [references/setup-git-github.md](references/setup-git-github.md)     |
+| Detect installed software or supported CMS                            | [references/software-detection.md](references/software-detection.md) |
+| Craft CMS config for local and fortrabbit environments                | [references/craft-cms.md](references/craft-cms.md)                   |
+| Kirby CMS config for local and fortrabbit environments                | [references/kirby-cms.md](references/kirby-cms.md)                   |
+| Detect local development tooling or dev container setup               | [references/local-development.md](references/local-development.md)   |
+| WordPress config for local and fortrabbit environments                | [references/wordpress.md](references/wordpress.md)                   |
+| Deploy, push code, trigger deployment, deploy hook                    | [references/deploy.md](references/deploy.md)                         |
+| Run a remote command, artisan, craft console, php script              | [references/ssh-exec.md](references/ssh-exec.md)                     |
+| Database: pull, push, dump, restore, migrate                          | [references/database.md](references/database.md)                     |
+| Content sync, rsync uploads, sync assets, sync down                   | [references/sync-content.md](references/sync-content.md)             |
+| Sync all files with rsync (no Git available)                          | [references/sync.md](references/sync.md)                             |
+| Review changes in browser using test domain                           | [references/browser-review.md](references/browser-review.md)         |
+| Update the skill files to the latest version                          | Run the update command below                                         |
+| Uninstall, remove the skill files                                     | Run the uninstall command below                                      |
+| General help                                                          | Show the capability summary below                                    |
 
 ---
 
 ## Capability summary (shown for `/fortrabbit help`)
 
 ```
-fortrabbit skills — v0.1
+fortrabbit skills — v0.1.1
 
   /fortrabbit deploy         Trigger a deployment (via deploy hook or git push reminder)
   /fortrabbit ssh            Run a command on the remote environment via SSH
