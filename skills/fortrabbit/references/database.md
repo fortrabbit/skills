@@ -53,7 +53,7 @@ Then update your database commands to use the stored password instead of prompti
 
 ---
 
-## Pull: download remote database to local
+## db down: download remote database to local
 
 > **Warning:** This overwrites your local database. The current local data will be lost.
 
@@ -81,7 +81,7 @@ ddev import-db < fortrabbit-backup.sql
 
 ---
 
-## Push: upload local database to remote
+## db up: upload local database to remote
 
 > **Warning:** This overwrites the remote database. All remote data will be replaced by your local data. Confirm with the user before proceeding.
 
@@ -129,7 +129,6 @@ mysql -uAPP_ENV_ID -h127.0.0.1 -P13306 -p$FORTRABBIT_DB_PASSWORD -D APP_ENV_ID
 
 - The MySQL password is different from your SSH key. Find it in the dashboard.
 - The database name and username are both the environment ID (e.g. `en-wjl0ai`).
-- Use `127.0.0.1` not `localhost` — MySQL treats these differently.
 - Close the tunnel window when done.
 
 After database operations, review the changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.

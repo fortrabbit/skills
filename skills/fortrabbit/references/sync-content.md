@@ -9,10 +9,10 @@ Git deployment handles code. User-generated content (uploads, images, flat files
 Laravel stores user uploads in `storage/app/public/`. Sync only that directory:
 
 ```shell
-# UP: push local uploads to remote
+# sync content up: push local uploads to remote for Laravel
 rsync -av ./storage/app/public/ APP_ENV_ID@ssh.REGION.frbit.app:./storage/app/public/
 
-# DOWN: pull remote uploads to local
+# sync content down: pull remote uploads to local for Laravel
 rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./storage/app/public/ ./storage/app/public/
 ```
 
@@ -46,10 +46,10 @@ Volumes backed by a remote filesystem (S3, etc.) do not need rsync — skip thos
 **Step 2 — sync each local volume path:**
 
 ```shell
-# UP: push local uploads to remote
+# sync content up: push local uploads to remote for Craft CMS
 rsync -av ./VOLUME_PATH/ APP_ENV_ID@ssh.REGION.frbit.app:./VOLUME_PATH/
 
-# DOWN: pull remote uploads to local
+# sync content down: pull remote uploads to local for Craft CMS
 rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./VOLUME_PATH/ ./VOLUME_PATH/
 ```
 
@@ -59,34 +59,26 @@ Repeat for each volume that uses local storage.
 
 ## Kirby CMS
 
-Kirby stores content in flat files in `content/` and media in `media/`.
+The content for Kirby CMS is stored with the `content` folder:
 
 ```shell
-# UP: push local content to remote
-rsync -av ./ APP_ENV_ID@ssh.REGION.frbit.app:
-
-# DOWN: pull remote content to local
-rsync -av APP_ENV_ID@ssh.REGION.frbit.app: ./
-```
-
-Kirby rsync syncs the entire project root. The vendor folder is included — this usually works if your local PHP version matches the remote. A more selective approach is to only sync content:
-
-```shell
-# UP: sync only content folder
+# Sync content up: sync only content folder for Kirby CMS
 rsync -av ./content/ APP_ENV_ID@ssh.REGION.frbit.app:./content/
 
-# DOWN: sync only content folder
+# Sync content up: sync only content folder for Kirby CMS
 rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./content/ ./content/
 ```
+
+Likely the `media` folder needs a treatment like this too.s 
 
 ---
 
 ## Statamic
 
-Statamic separates code (Git-deployed) from content (rsync). The content directories to sync:
+The content directories to sync when only syncing content:
 
 ```shell
-# UP: push local content to remote
+# Sync content up: push local content to remote for Statamic
 rsync -avR \
   ./content \
   ./users \
@@ -98,7 +90,7 @@ rsync -avR \
   ./public/assets \
   APP_ENV_ID@ssh.REGION.frbit.app:./
 
-# DOWN: pull remote content to local
+# Sync content down:: pull remote content to local for Statamic
 rsync -av 'APP_ENV_ID@ssh.REGION.frbit.app:./content' ./
 rsync -av 'APP_ENV_ID@ssh.REGION.frbit.app:./users' ./
 rsync -av 'APP_ENV_ID@ssh.REGION.frbit.app:./resources/blueprints' ./resources/
@@ -115,13 +107,13 @@ Only include the folders that exist in your project.
 
 ## WordPress
 
-WordPress uploads live in `wp-content/uploads/`. Sync only the uploads folder to avoid overwriting plugins and themes managed by Git:
+WordPress uploads live in `wp-content/uploads/`.
 
 ```shell
-# UP: push local uploads to remote
+# Sync content up: push local uploads to remote
 rsync -av ./wp-content/uploads/ APP_ENV_ID@ssh.REGION.frbit.app:./wp-content/uploads/
 
-# DOWN: pull remote uploads to local
+# Sync content down: pull remote uploads to local
 rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./wp-content/uploads/ ./wp-content/uploads/
 ```
 
@@ -133,4 +125,4 @@ rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./wp-content/uploads/ ./wp-content/upl
 - Syncing down overwrites local files. Warn the user before running a down-sync.
 - For rsync flags and dry-run usage, see [sync.md](sync.md).
 
-After syncing content, review the changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.
+After syncing content up, review changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.

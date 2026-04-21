@@ -1,8 +1,8 @@
 # Sync all files via rsync
 
-Use this when Git and GitHub are not available. For Git-based deployment, see [deploy.md](deploy.md).
+Use this when Git and GitHub are not available or the user prefers quick rsync. This flow will use rsync to upload or download the entire project via SSH. It will include all files, also the vendor folder.
 
-## Upload all files to remote
+## sync up: Upload all files to remote
 
 ```bash
 rsync -av \
@@ -15,7 +15,7 @@ rsync -av \
   ./ APP_ENV_ID@ssh.REGION.frbit.app:
 ```
 
-## Download all files from remote
+## sync down: Download all files from remote
 
 ```bash
 rsync -av APP_ENV_ID@ssh.REGION.frbit.app: ./
@@ -25,11 +25,11 @@ rsync -av APP_ENV_ID@ssh.REGION.frbit.app: ./
 
 ## Common rsync flags
 
-| Flag | Meaning |
-|------|---------|
-| `-a` | Archive: preserves permissions, timestamps, symlinks |
-| `-v` | Verbose: shows what is being transferred |
-| `-n` | Dry run: preview without transferring |
+| Flag       | Meaning                                                          |
+| ---------- | ---------------------------------------------------------------- |
+| `-a`       | Archive: preserves permissions, timestamps, symlinks             |
+| `-v`       | Verbose: shows what is being transferred                         |
+| `-n`       | Dry run: preview without transferring                            |
 | `--delete` | Remove remote files no longer present locally (use with caution) |
 
 Run a dry run first when unsure:
