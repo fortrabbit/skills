@@ -46,38 +46,28 @@ This file contains no secrets and can safely be committed to Git.
 
 ---
 
-## Step 5 — SSH key setup
-
-Ask the user to visit **you/ssh-keys** in the fortrabbit dashboard https://dash.fortrabbit.com/you/ssh-keys to check whether an SSH key is already registered. If one is present, skip to the next step. If not, follow [ssh-key-setup.md](ssh-key-setup.md) to generate and register a key.
-
----
-
-## Step 6 — Test the connection
+## Step 5 — Test the SSH connection
 
 ```shell
 # Replace APP_ENV_ID and REGION with your values
 ssh APP_ENV_ID@ssh.REGION.frbit.app echo "Connection OK"
 ```
 
-A successful connection prints the fortrabbit welcome banner followed by "Connection OK". If you see a permission denied error, the SSH key is not registered or not being sent — follow [ssh-key-setup.md](ssh-key-setup.md).
+A successful connection prints the fortrabbit welcome banner followed by "Connection OK". If the connection fails, load [ssh-key-setup.md](ssh-key-setup.md) and follow the setup and troubleshooting steps there.
 
-## Step 7 — Next steps
+---
 
-Ask the user how they want to proceed from here.
+## Step 6 — Continue to software setup
 
-## Path A: Start from scratch
+**If the software stack is already known** (detected earlier via `start.md` or visible in the project folder), load the matching guide directly:
 
-The user has no local project yet.
+- WordPress → `wordpress.md`
+- Craft CMS → `craft-cms.md`
+- Statamic → `statamic.md`
+- Kirby → `kirby-cms.md`
+- Laravel → `deploy.md`
+- Generic PHP → `deploy.md`
 
-1. Ask which software they want to use:
-   - WordPress
-   - Craft CMS
-   - Statamic
-   - Kirby CMS
-   - Laravel
-   - Generic PHP
-2. Load matching framework guide (`wordpress.md`, `craft-cms.md`, `statamic.md`, or `kirby-cms.md`).
+**If no software was detected yet**, run detection now — see [software-detection.md](software-detection.md).
 
-## Path B: Continue with software specific guides
-
-Load matching framework guide (`wordpress.md`, `craft-cms.md`, `statamic.md`, or `kirby-cms.md`).
+**If the folder is empty** (no project exists yet), ask the user which software they want to use and load the matching guide from the list above. The guide will walk through local installation first.

@@ -52,7 +52,6 @@ ssh APP_ENV_ID@ssh.REGION.frbit.app echo "ok"
 
 If this returns `ok`, the key is working. If it fails, see the Troubleshooting section below.
 
-
 ## Troubleshooting
 
 **Permission denied (publickey)**
