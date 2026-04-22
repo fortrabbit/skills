@@ -9,10 +9,11 @@ Check whether a Craft project exists in the current folder — see [software-det
 If no Craft project exists yet, install one:
 
 ```bash
-composer create-project craftcms/craft my-craft-site
-cd my-craft-site
+composer create-project craftcms/craft .
 php craft setup
 ```
+
+This requires the current folder to be empty. If the skills are installed per-project, a `.claude/` directory already exists and Composer will refuse. In that case, reinstall the skills globally (see README) or install Craft into a subdirectory first and move the files up.
 
 ## Choose a deployment strategy
 

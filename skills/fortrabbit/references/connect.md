@@ -1,4 +1,4 @@
-# Setup: Start using fortrabbit
+# Connect: Start using fortrabbit
 
 ## Step 1 — Do you have a fortrabbit account?
 
@@ -61,7 +61,7 @@ ssh APP_ENV_ID@ssh.REGION.frbit.app echo "Connection OK"
 
 A successful connection prints the fortrabbit welcome banner followed by "Connection OK". If you see a permission denied error, the SSH key is not registered or not being sent — follow [ssh-key-setup.md](ssh-key-setup.md).
 
-## Step 7 - Continue setup
+## Step 7 — Next steps
 
 Ask the user how they want to proceed from here.
 

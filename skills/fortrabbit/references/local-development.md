@@ -35,15 +35,13 @@ These files may indicate a prepared local workflow rather than just source code:
 
 ## Detecting local vs remote-only setup
 
-A remote-only or simple deployment repo may still have code but lack local dev scaffolding.
-
-If you find:
+A remote-only or simple deployment repo may still have code but lack local dev scaffolding. If you find:
 
 - `composer.json` but no `.ddev`, `docker-compose.yml`, or local config files
 - `wp-config.php` with no `.env` or env loader references
 - no `.vscode`, `.devcontainer`, or other editor tooling
 
-then the repository is likely not fully configured for local development yet.
+then the repository is maybe not fully configured for local development yet.
 
 ## Look for local PHP and MySQL
 
@@ -75,7 +73,7 @@ If both PHP and a running MySQL server are found, a native local stack is a viab
 ## Recommended checks
 
 ```shell
-# Strong signals for local dev setup
+# Strong signals for local dev setup based on containers
 [ -d .ddev ] && echo "DDEV detected"
 [ -f .ddev/config.yaml ] && echo "DDEV config.yaml found"
 [ -f .lando.yml ] && echo "Lando detected"
@@ -103,6 +101,7 @@ git remote -v 2>/dev/null
 ```
 
 Note whether:
+
 - The folder is a Git repository
 - A remote named `origin` points to `github.com`
 - The GitHub CLI (`gh`) is authenticated: `gh auth status 2>/dev/null`
@@ -115,8 +114,8 @@ No local development environment was detected in this folder.
 
 > "No local development environment was found in this project. How would you like to set one up? Options depend on what's available on your machine:
 >
-> - **DDEV** (Docker-based, cross-platform, recommended for teams)
 > - **Native PHP + MySQL** (if PHP and MySQL are already running locally — lighter weight, no Docker required)
+> - **DDEV** (Docker-based, cross-platform, recommended for teams)
 > - **Laravel Valet / Herd** (macOS only, zero-config for Laravel and other PHP apps)
 > - **Lando** (Docker-based, flexible)
 > - **Skip for now** and work with the remote environment only"

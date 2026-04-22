@@ -2,12 +2,12 @@
 
 Manage websites and web apps on [fortrabbit](https://www.fortrabbit.com) from your AI coding assistant — Claude Code, OpenAI Codex, and GitHub Copilot.
 
-Version 0.1 — early preview.
+Version 0.2 — early preview.
 
 ## What it does
 
 - **start** — boarding q&a
-- **setup** — configure your computer, setup up
+- **connect** — configure your computer, connect to fortrabbit
 - **deploy** — trigger a deployment via deploy hook or push to your Git remote
 - **sync** — rsync all content up or down
 - **content sync** — rsync only CMS content up or down
@@ -20,19 +20,23 @@ Supports: Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP.
 
 ## Install
 
-Run this in your project root:
+Run this anywhere to install globally — available across all your projects:
 
 ```shell
 curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh
 ```
 
-Or to install globally (available in all projects):
+The script detects which tools are installed on your machine and only installs into existing config directories (`~/.claude` for Claude Code, `~/.agents` for OpenAI Codex). It exits with an error if neither is found.
+
+### Per-project install
+
+To install into a specific project instead, run this in the project root:
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh -s -- --global
+curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh -s -- --project
 ```
 
-The script installs the skill for **Claude Code**, **OpenAI Codex**, and **GitHub Copilot** in one go.
+This also installs **GitHub Copilot** instructions (repo-scoped). Note that a per-project install adds a `.claude/` directory to your project folder — this means `composer create-project` will refuse to run there since it requires an empty directory. Prefer the global install when starting a new project from scratch.
 
 ### What gets installed
 

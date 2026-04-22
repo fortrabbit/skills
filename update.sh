@@ -17,9 +17,9 @@ fi
 echo "Update available: v$LOCAL → v$REMOTE"
 
 if [ "$SCRIPT_DIR" = "$HOME/.claude/skills/fortrabbit" ] || [ "$SCRIPT_DIR" = "$HOME/.agents/skills/fortrabbit" ]; then
-  FLAG="--global"
-else
   FLAG=""
+else
+  FLAG="--project"
 fi
 
 curl -fsSL "$INSTALL_URL" | sh -s -- $FLAG

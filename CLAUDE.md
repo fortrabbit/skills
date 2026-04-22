@@ -23,7 +23,7 @@ The project provides the same operational guidance in platform-specific formats:
 `skills/fortrabbit/references/` contains operation guides loaded contextually by `SKILL.md`. Each file must cover all six supported frameworks:
 
 - `start.md` — onboarding / first-run Q&A
-- `setup.md` — SSH connection troubleshooting
+- `connect.md` — fortrabbit onboarding: account, app, SSH key, connection test
 - `ssh-key-setup.md` — SSH key generation and dashboard registration
 - `setup-git-github.md` — Git and GitHub setup for deployments
 - `deploy.md` — Git push and deploy hook workflows
@@ -76,7 +76,7 @@ The project provides the same operational guidance in platform-specific formats:
 - Require explicit user confirmation for destructive ops (db push/pull, DROP statements)
 - Database access is only via SSH tunnel — no direct remote connections
 - Never store passwords in files
-- Load `setup.md` automatically on SSH failures
+- Load `connect.md` automatically on SSH failures
 
 **Update check:** `SKILL.md` silently checks for updates once per 7 days (tracked in `.last-update-check`). The check compares `VERSION` against `https://raw.githubusercontent.com/fortrabbit/skills/main/VERSION`.
 

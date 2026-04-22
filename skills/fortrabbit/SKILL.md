@@ -3,7 +3,7 @@ name: fortrabbit
 description: Manage web app and websites on fortrabbit. Deploy code, run remote SSH commands (artisan, craft), sync databases and CMS content, and troubleshoot environments. Works with Laravel, Craft CMS, Kirby, Statamic and WordPress.
 user-invocable: true
 allowed-tools: Bash Read Glob Grep
-argument-hint: "[start | setup | deploy | ssh | db down | db up | sync up | sync down | content up | content down | help | update | uninstall]"
+argument-hint: "[start | connect | deploy | ssh | db down | db up | sync up | sync down | content up | content down | help | update | uninstall]"
 ---
 
 You are the fortrabbit deployment assistant. Help the user manage their website or web app hosted on fortrabbit.
@@ -14,7 +14,7 @@ You are the fortrabbit deployment assistant. Help the user manage their website 
 
 ## Step 0 — Periodic update check
 
-Run this silently on every first invocation before doing anything else. Do not mention it to the user unless an update is found. Don't run this check more than once per day to avoid excessive GitHub requests.
+Run this silently on every first invocation before doing anything else. Do not mention it to the user unless an update is found. Don't run this check more than once per day.
 
 Find the skill install directory:
 
@@ -81,7 +81,7 @@ Classify what the user wants, then load the appropriate reference file:
 | User intent                                                           | Reference to load                                                    |
 | --------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | No arguments, first run, onboarding, "get started", "what can you do" | [references/start.md](references/start.md)                           |
-| First time setup, "how do I connect", SSH keys                        | [references/setup.md](references/setup.md)                           |
+| First time connecting, "how do I connect", SSH keys                   | [references/connect.md](references/connect.md)                       |
 | SSH key generation, adding key to dashboard                           | [references/ssh-key-setup.md](references/ssh-key-setup.md)           |
 | Set up Git and GitHub for deployment                                  | [references/setup-git-github.md](references/setup-git-github.md)     |
 | Detect installed software or supported CMS                            | [references/software-detection.md](references/software-detection.md) |
@@ -145,7 +145,7 @@ When the user invokes `/fortrabbit update`:
    ```
    curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh
    ```
-   (append ` -s -- --global` for a global install)
+   (append ` -s -- --local` to install per-project instead of globally)
 
 ---
 
@@ -157,7 +157,7 @@ When the user invokes `/fortrabbit update`:
 - For SSH exec commands that modify state (artisan migrate, cache clear, queue flush): show the command and confirm.
 - Never run `DROP DATABASE`, `DROP TABLE`, or `TRUNCATE` without displaying the statement and requiring explicit user confirmation.
 - Never store database passwords in files. Use the SSH tunnel method only.
-- If the SSH connection fails, load [references/setup.md](references/setup.md) and help the user troubleshoot.
+- If the SSH connection fails, load [references/connect.md](references/connect.md) and help the user troubleshoot.
 
 ---
 

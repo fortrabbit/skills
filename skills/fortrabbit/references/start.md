@@ -26,8 +26,8 @@ If everything is in place, suggest the logical next action and stop — do not a
 
 | State                                                       | Route to                                           |
 | ----------------------------------------------------------- | -------------------------------------------------- |
-| Folder empty or no software detected + no fortrabbit config | Load `setup.md`                                    |
-| No fortrabbit config + software detected                    | Load `setup.md`                                    |
+| Folder empty or no software detected + no fortrabbit config | Load `connect.md`                                  |
+| No fortrabbit config + software detected                    | Load `connect.md`                                  |
 | fortrabbit configured + software detected + no git          | Load `deploy.md`                                   |
-| fortrabbit configured + no software detected                | Load `setup.md` go to step 6                       |
+| fortrabbit configured + no software detected                | Load `connect.md` go to step 6                     |
 | fortrabbit configured + software detected + git ready       | Suggest `/fortrabbit deploy` or relevant operation |

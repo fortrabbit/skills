@@ -26,25 +26,25 @@ SSH host pattern: `APP_ENV_ID@ssh.REGION.frbit.app`
 
 ## Available operations
 
-| Command | What it does |
-|---------|-------------|
-| deploy | Read `FORTRABBIT_DEPLOY_HOOK_SECRET` from `.env`, construct URL, POST with `User-Agent: fortrabbit`; or remind user to push to their Git remote |
-| ssh | Run a remote command via SSH exec |
-| db pull | Download remote MySQL database to local |
-| db push | Upload local MySQL database to remote |
-| content sync | Rsync CMS uploads/content up or down |
-| status | Show configured environment and detected project type |
+| Command      | What it does                                                                                                                                    |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| deploy       | Read `FORTRABBIT_DEPLOY_HOOK_SECRET` from `.env`, construct URL, POST with `User-Agent: fortrabbit`; or remind user to push to their Git remote |
+| ssh          | Run a remote command via SSH exec                                                                                                               |
+| db pull      | Download remote MySQL database to local                                                                                                         |
+| db push      | Upload local MySQL database to remote                                                                                                           |
+| content sync | Rsync CMS uploads/content up or down                                                                                                            |
+| status       | Show configured environment and detected project type                                                                                           |
 
 ## Project type detection
 
-| Signal | Type |
-|--------|------|
-| `artisan` file or `laravel/framework` in composer.json | Laravel |
-| `craftcms/cms` in composer.json | Craft CMS |
-| `statamic/cms` in composer.json | Statamic |
-| `getkirby/cms` in composer.json | Kirby |
-| `wp-config.php` present | WordPress |
-| Other composer.json | Generic PHP |
+| Signal                                                 | Type        |
+| ------------------------------------------------------ | ----------- |
+| `artisan` file or `laravel/framework` in composer.json | Laravel     |
+| `craftcms/cms` in composer.json                        | Craft CMS   |
+| `statamic/cms` in composer.json                        | Statamic    |
+| `getkirby/cms` in composer.json                        | Kirby       |
+| `wp-config.php` present                                | WordPress   |
+| Other composer.json                                    | Generic PHP |
 
 ## Safety rules
 

@@ -15,6 +15,8 @@ composer create-project statamic/statamic .
 php please make:user
 ```
 
+This requires the current folder to be empty. If the skills are installed per-project, a `.claude/` directory already exists and Composer will refuse. In that case, reinstall the skills globally (see README) or install Statamic into a subdirectory first and move the files up.
+
 ## Choose a deployment strategy
 
 Ask the user which workflow fits their project:

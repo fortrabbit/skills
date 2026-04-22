@@ -9,9 +9,10 @@ Check whether a Kirby project exists in the current folder — see [software-det
 If no Kirby project exists yet, install one:
 
 ```bash
-composer create-project getkirby/starterkit my-kirby-site
-cd my-kirby-site
+composer create-project getkirby/starterkit .
 ```
+
+This requires the current folder to be empty. If the skills are installed per-project, a `.claude/` directory already exists and Composer will refuse. In that case, reinstall the skills globally (see README) or install Kirby into a subdirectory first and move the files up.
 
 ## Choose a deployment strategy
 
