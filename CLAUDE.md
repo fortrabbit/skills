@@ -10,32 +10,53 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The project provides the same operational guidance in platform-specific formats:
 
-| File / Path | Platform |
-|-------------|----------|
-| `skills/fortrabbit/SKILL.md` | Claude Code + OpenAI Codex (canonical source) |
-| `AGENTS.md` | OpenAI Codex contributor context (mirrors this file) |
-| `.github/instructions/fortrabbit.instructions.md` | GitHub Copilot |
+| File / Path                                       | Platform                                             |
+| ------------------------------------------------- | ---------------------------------------------------- |
+| `skills/fortrabbit/SKILL.md`                      | Claude Code + OpenAI Codex (canonical source)        |
+| `AGENTS.md`                                       | OpenAI Codex contributor context (mirrors this file) |
+| `.github/instructions/fortrabbit.instructions.md` | GitHub Copilot                                       |
 
 `skills/fortrabbit/SKILL.md` is the canonical source. When updating operational guidance, propagate changes to `.github/instructions/fortrabbit.instructions.md`.
 
 ### Skill reference files
 
-`skills/fortrabbit/references/` contains operation guides loaded contextually by `SKILL.md`:
+`skills/fortrabbit/references/` contains operation guides loaded contextually by `SKILL.md`. Each file must cover all six supported frameworks:
 
-- `setup.md` — SSH key setup and connection troubleshooting
+- `start.md` — onboarding / first-run Q&A
+- `setup.md` — SSH connection troubleshooting
+- `ssh-key-setup.md` — SSH key generation and dashboard registration
+- `setup-git-github.md` — Git and GitHub setup for deployments
 - `deploy.md` — Git push and deploy hook workflows
 - `ssh-exec.md` — Remote command syntax per framework
 - `database.md` — SSH tunnel setup and DB pull/push procedures
 - `sync-content.md` — Per-framework rsync paths and examples
+- `sync.md` — Full file sync via rsync (no-Git fallback)
+- `browser-review.md` — Reviewing changes on the fortrabbit test domain
+- `software-detection.md` — Detecting installed software / CMS
+- `local-development.md` — Detecting local dev tooling / dev container setup
+- `craft-cms.md` — Craft CMS config for local and fortrabbit environments
+- `kirby-cms.md` — Kirby config for local and fortrabbit environments
+- `wordpress.md` — WordPress config for local and fortrabbit environments
+- `statamic.md` — Statamic config for local and fortrabbit environments
+
+### Shell scripts
+
+`install.sh`, `update.sh`, and `uninstall.sh` at the repo root are copied into the skill directories on install. They are bundled as-is — no compilation required.
+
+- `install.sh [--global]` — downloads and installs to `.claude/skills/fortrabbit/`, `.agents/skills/fortrabbit/`, and `.github/instructions/` (Copilot, project-only)
+- `update.sh` — checks `VERSION` against the published version and re-runs `install.sh` if newer
+- `uninstall.sh` — removes all installed skill directories and the Copilot instructions file
 
 ## Key Conventions
 
 **Config lookup chain** (in order):
+
 1. `.fortrabbit` file (`app-env-id`, `region`) — committed, no secrets
 2. `.env` (`FORTRABBIT_APP_ENV_ID`, `FORTRABBIT_REGION`, `FORTRABBIT_DEPLOY_HOOK_SECRET`)
 3. Prompt the user if neither exists
 
 **Project type detection** (file/dependency signals):
+
 - `artisan` file or `laravel/framework` in composer.json → Laravel
 - `craftcms/cms` in composer.json → Craft CMS
 - `statamic/cms` → Statamic
@@ -45,12 +66,19 @@ The project provides the same operational guidance in platform-specific formats:
 
 **SSH host pattern:** `APP_ENV_ID@ssh.REGION.frbit.app`
 
+**Deploy hook URL pattern:** `https://api.fortrabbit.com/webhooks/environments/{app-env-id}/deploy/{secret}`
+
+**Docs URL rewriting:** Fetch `https://docs.fortrabbit.com/` pages as raw markdown by appending `.md` and inserting `/raw/` — e.g. `https://docs.fortrabbit.com/guides/foo/bar` → `https://docs.fortrabbit.com/raw/guides/foo/bar.md`
+
 **Safety rules enforced in all formats:**
+
 - Always print the full command before executing
 - Require explicit user confirmation for destructive ops (db push/pull, DROP statements)
 - Database access is only via SSH tunnel — no direct remote connections
 - Never store passwords in files
 - Load `setup.md` automatically on SSH failures
+
+**Update check:** `SKILL.md` silently checks for updates once per 7 days (tracked in `.last-update-check`). The check compares `VERSION` against `https://raw.githubusercontent.com/fortrabbit/skills/main/VERSION`.
 
 ## Supported Frameworks
 

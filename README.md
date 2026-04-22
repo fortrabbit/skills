@@ -36,11 +36,11 @@ The script installs the skill for **Claude Code**, **OpenAI Codex**, and **GitHu
 
 ### What gets installed
 
-| Target | Per-project | Global |
-|--------|-------------|--------|
-| Claude Code | `.claude/skills/fortrabbit/` | `~/.claude/skills/fortrabbit/` |
-| OpenAI Codex | `.agents/skills/fortrabbit/` | `~/.agents/skills/fortrabbit/` |
-| GitHub Copilot | `.github/instructions/fortrabbit.instructions.md` | — (repo-scoped) |
+| Target         | Per-project                                       | Global                         |
+| -------------- | ------------------------------------------------- | ------------------------------ |
+| Claude Code    | `.claude/skills/fortrabbit/`                      | `~/.claude/skills/fortrabbit/` |
+| OpenAI Codex   | `.agents/skills/fortrabbit/`                      | `~/.agents/skills/fortrabbit/` |
+| GitHub Copilot | `.github/instructions/fortrabbit.instructions.md` | — (repo-scoped)                |
 
 ## Requirements
 
