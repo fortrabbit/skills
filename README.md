@@ -20,7 +20,7 @@ Supports: Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP.
 
 ## Install
 
-Run this anywhere to install globally — available across all your projects:
+Run this anywhere to install globally for your user — available across all your projects:
 
 ```shell
 curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh
@@ -46,6 +46,24 @@ This also installs **GitHub Copilot** instructions (repo-scoped). Note that a pe
 | OpenAI Codex   | `.agents/skills/fortrabbit/`                      | `~/.agents/skills/fortrabbit/` |
 | GitHub Copilot | `.github/instructions/fortrabbit.instructions.md` | — (repo-scoped)                |
 
+## Uninstall
+
+Run `/fortrabbit uninstall` inside your agent, or run the uninstall script directly:
+
+```shell
+# If globally install
+~/.claude/skills/fortrabbit/uninstall.sh
+
+# Per-project install (from project root)
+.claude/skills/fortrabbit/uninstall.sh
+```
+
+The script lists what will be removed and asks for confirmation before deleting anything.
+
 ## Requirements
 
 - `ssh`, `rsync` available in your local terminal
+
+## Disclaimer
+
+These skills are provided as-is, without warranty of any kind. Use at your own risk. Always review the commands your agent proposes before confirming — especially destructive operations like database push/pull.
