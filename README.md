@@ -2,7 +2,7 @@
 
 Manage websites and web apps on [fortrabbit](https://www.fortrabbit.com) from your AI coding assistant — Claude Code, OpenAI Codex, and GitHub Copilot.
 
-Version 0.2 — early preview.
+Early preview version.
 
 ## What it does
 
