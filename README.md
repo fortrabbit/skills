@@ -1,4 +1,4 @@
-# fortrabbit skills
+# fortrabbit agentic skills
 
 Manage websites and web apps on [fortrabbit](https://www.fortrabbit.com) from your AI coding assistant — Claude Code, OpenAI Codex, and GitHub Copilot.
 
