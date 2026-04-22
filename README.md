@@ -6,7 +6,7 @@ Early preview version.
 
 ## What it does
 
-- **start** — boarding q&a
+- **start** — boarding
 - **connect** — configure your computer, connect to fortrabbit
 - **deploy** — trigger a deployment via deploy hook or push to your Git remote
 - **sync** — rsync all content up or down
