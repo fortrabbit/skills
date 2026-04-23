@@ -8,6 +8,7 @@ Use this when Git and GitHub are not available or the user prefers quick rsync. 
 rsync -av \
   --exclude='.git/' \
   --exclude='.claude/' \
+  --exclude='.fortrabbit' \
   --exclude='.env' \
   --exclude='.env.local' \
   --exclude='.DS_Store' \
