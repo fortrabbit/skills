@@ -4,10 +4,32 @@ After making changes to your fortrabbit environment, review them in a browser us
 
 ## Test domain URL
 
-Your fortrabbit app has a test domain you can use to review changes before they go live:
-
 ```text
 https://APP_ENV_ID.REGION.frbit.app
+```
+
+Always include the region segment. Example: `https://en-0rk7ap.eu-w1a.frbit.app`. The TLD is frbit.app. Do not use frb.io or frb.app — both are wrong.
+
+## Pre-test with curl
+
+Before asking the user to open a browser, run a quick HTTP check:
+
+```shell
+curl -o /dev/null -s -w "%{http_code}" https://APP_ENV_ID.REGION.frbit.app
+```
+
+| Status                | Action                                                                                       |
+| --------------------- | -------------------------------------------------------------------------------------------- |
+| `200`                 | Site is up — ask user to review in browser                                                   |
+| `301` / `302`         | Redirect — follow with `curl -L` and check the final destination                             |
+| `404`                 | Page not found — check deployment logs, verify the app is deployed and the domain is correct |
+| `500` / `502` / `503` | Server error — load deployment logs immediately and investigate                              |
+| `000` / timeout       | Connection failed — check SSH connection and whether deployment completed                    |
+
+For a more detailed response (headers, redirect chain):
+
+```shell
+curl -I -L https://APP_ENV_ID.REGION.frbit.app
 ```
 
 ## When to use test domain
@@ -16,6 +38,13 @@ Use after any code deployment, SSH exec, content sync, or database operation.
 
 ## Troubleshooting
 
-If changes are not visible: check deployment logs in the dashboard, allow a few minutes, clear browser cache, verify the environment ID in the URL.
+If the curl check fails or returns an error code:
+
+1. Check the deployment log in the dashboard (**Dashboard → Environment → Deployments**).
+2. Look for Composer errors or failing post-deploy commands.
+3. Run `ssh APP_ENV_ID@ssh.REGION.frbit.app 'php --version'` to confirm SSH access is working.
+4. For 500 errors, check the application log via SSH: `ssh APP_ENV_ID@ssh.REGION.frbit.app 'tail -n 50 storage/logs/laravel.log'` (adjust path for your framework).
 
 For more details, see the [fortrabbit test domain documentation](https://docs.fortrabbit.com/platform/dns/test-domain).
+
+

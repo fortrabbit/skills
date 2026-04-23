@@ -114,12 +114,35 @@ When PHP is available and a local MySQL server is running, offer the native stac
 4. Run framework-specific setup (e.g. `php artisan key:generate` for Laravel, `php craft setup` for Craft).
 5. Use the built-in PHP server (`php -S localhost:8000 -t public`) or configure a virtual host in Valet/Herd/MAMP.
 
-### If no native stack is found — recommend DDEV
+### If no native stack is found — ask about intent first
 
-- Create a DDEV project for the current folder.
-- Add a `.env` file or env loader to keep settings portable.
-- Run `composer install` if `composer.json` exists.
-- For WordPress, make sure `wp-config.php` supports env vars and local database fallbacks.
+Before recommending a setup, ask the user:
 
-Learn more in the fortrabbit local development docs:
-https://docs.fortrabbit.com/integrations/local-development/intro
+> "Are you setting this up for a real project (team, client, ongoing work), or just testing and exploring?"
+
+**Testing / exploring:**
+
+For file-based CMS projects (Kirby, Statamic) that don't require a database, the built-in PHP server is often sufficient — no Docker needed:
+
+```bash
+php -S localhost:8000 -t public
+```
+
+For Kirby, the document root is typically the project root (not `public/`):
+
+```bash
+php -S localhost:8000
+```
+
+This starts immediately with no configuration. Suggest this first for low-stakes use.
+
+**Serious / ongoing project:**
+
+Recommend DDEV for projects that need a database (WordPress, Craft, Laravel), team consistency, or environment parity with fortrabbit:
+
+- Create a DDEV project: `ddev config` then `ddev start`
+- Add a `.env` file or env loader to keep settings portable
+- Run `composer install` if `composer.json` exists
+- For WordPress, make sure `wp-config.php` supports env vars and local database fallbacks
+
+Learn more in the [fortrabbit local development docs](https://docs.fortrabbit.com/integrations/local-development/intro).

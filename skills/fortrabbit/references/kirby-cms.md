@@ -12,7 +12,7 @@ If no Kirby project exists yet, install one:
 composer create-project getkirby/starterkit .
 ```
 
-Requires an empty folder. If `.claude/` exists, install into a subdirectory first and move files up, or reinstall the skills globally.
+Requires an empty folder. If `.claude/` or `.fortrabbit` exists, install into a subdirectory first and move files up, or reinstall the skills globally.
 
 ## Choose a deployment strategy
 
