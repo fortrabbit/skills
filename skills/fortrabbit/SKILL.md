@@ -95,6 +95,7 @@ Classify what the user wants, then load the appropriate reference file:
 | Content sync, rsync uploads, sync assets, sync down                   | [references/sync-content.md](references/sync-content.md)             |
 | Sync all files with rsync (no Git available)                          | [references/sync.md](references/sync.md)                             |
 | Review changes in browser using test domain                           | [references/browser-review.md](references/browser-review.md)         |
+| HTTP error (404, 500, 502, 503, 504), app not loading, curl fails     | [references/http-error-troubleshooting.md](references/http-error-troubleshooting.md) |
 | Update the skill files to the latest version                          | Run the update command below                                         |
 | Uninstall, remove the skill files                                     | Run the uninstall command below                                      |
 | General help                                                          | Show the capability summary below                                    |

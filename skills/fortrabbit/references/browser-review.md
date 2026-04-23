@@ -18,13 +18,13 @@ Before asking the user to open a browser, run a quick HTTP check:
 curl -o /dev/null -s -w "%{http_code}" https://APP_ENV_ID.REGION.frbit.app
 ```
 
-| Status                | Action                                                                                       |
-| --------------------- | -------------------------------------------------------------------------------------------- |
-| `200`                 | Site is up — ask user to review in browser                                                   |
-| `301` / `302`         | Redirect — follow with `curl -L` and check the final destination                             |
-| `404`                 | Page not found — check deployment logs, verify the app is deployed and the domain is correct |
-| `500` / `502` / `503` | Server error — load deployment logs immediately and investigate                              |
-| `000` / timeout       | Connection failed — check SSH connection and whether deployment completed                    |
+| Status          | Action                                                                                       |
+| --------------- | -------------------------------------------------------------------------------------------- |
+| `200`           | Site is up — ask user to review in browser                                                   |
+| `301` / `302`   | Redirect — follow with `curl -L` and check the final destination                             |
+| `404`           | Page not found — check deployment logs, verify the app is deployed and the domain is correct |
+| `500` / `502` / | Server error — load deployment logs immediately and investigate                              |
+| timeout         | Connection failed — check SSH connection and whether deployment completed                    |
 
 For a more detailed response (headers, redirect chain):
 
@@ -38,13 +38,11 @@ Use after any code deployment, SSH exec, content sync, or database operation.
 
 ## Troubleshooting
 
-If the curl check fails or returns an error code:
+If the curl check fails or returns an error code, load [http-error-troubleshooting.md](http-error-troubleshooting.md) and follow the steps for the specific status code.
 
-1. Check the deployment log in the dashboard (**Dashboard → Environment → Deployments**).
-2. Look for Composer errors or failing post-deploy commands.
-3. Run `ssh APP_ENV_ID@ssh.REGION.frbit.app 'php --version'` to confirm SSH access is working.
-4. For 500 errors, check the application log via SSH: `ssh APP_ENV_ID@ssh.REGION.frbit.app 'tail -n 50 storage/logs/laravel.log'` (adjust path for your framework).
+Additional checks:
+
+1. Check the deployment log (**Dashboard → Environment → Deployments**) for Composer errors or failing post-deploy commands, if deployed via Git
+2. Confirm SSH access is working: `ssh APP_ENV_ID@ssh.REGION.frbit.app 'php --version'`
 
 For more details, see the [fortrabbit test domain documentation](https://docs.fortrabbit.com/platform/dns/test-domain).
-
-
