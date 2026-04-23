@@ -1,22 +1,28 @@
 # fortrabbit agentic skills
 
-Manage websites and web apps on [fortrabbit](https://www.fortrabbit.com) from your AI coding assistant — Claude Code, OpenAI Codex, and GitHub Copilot.
+The fortrabbit skills extend your coding assistant with domain knowledge on fortrabbit. Set up local development and deploy popular PHP software, such as Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP. Works for Claude Code and OpenAI Codex. Basic support for GitHub Copilot.
 
-Early preview version.
+Preview version.
 
-## What it does
+- [fortrabbit.com](https://www.fortrabbit.com) 2026 PHP as a Service.
 
-- **start** — boarding
-- **connect** — configure your computer, connect to fortrabbit
-- **deploy** — trigger a deployment via deploy hook or push to your Git remote
-- **sync** — rsync all content up or down
-- **content sync** — rsync only CMS content up or down
-- **ssh** — run remote commands (artisan, craft console, Composer)
-- **db pull** — download the remote database to your local environment
-- **db push** — upload your local database to the remote environment
-- **help** — show all available commands
+## Available commands
 
-Supports: Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP.
+| Command                    | Description                                                     |
+| -------------------------- | --------------------------------------------------------------- |
+| `/fortrabbit start`        | Detect project state and get guided to the right next step      |
+| `/fortrabbit connect`      | First-time setup: account, app, SSH key, connection test        |
+| `/fortrabbit sync up`      | Rsync all project files to the remote environment               |
+| `/fortrabbit sync down`    | Rsync all project files from the remote environment             |
+| `/fortrabbit deploy`       | Trigger a deployment via deploy hook or Git push                |
+| `/fortrabbit db down`      | Download the remote database to your local environment          |
+| `/fortrabbit db up`        | Upload your local database to the remote environment            |
+| `/fortrabbit content up`   | Rsync CMS content (uploads, assets) to the remote environment   |
+| `/fortrabbit content down` | Rsync CMS content from the remote environment                   |
+| `/fortrabbit ssh`          | Run a remote command via SSH (artisan, craft console, Composer) |
+| `/fortrabbit update`       | Check for updates and install the latest version                |
+| `/fortrabbit uninstall`    | Remove all installed skill files                                |
+| `/fortrabbit help`         | Show all available commands                                     |
 
 ## Install
 
