@@ -25,12 +25,15 @@ Craft CMS stores uploads in paths defined by its volume configuration — there 
 **Step 1 — find the volume paths:**
 
 Check `config/project/` YAML files (most reliable, always present):
+
 ```shell
 grep -r "basePath\|path" config/project/
 ```
+
 Look for local filesystem entries. The value is often an env var alias like `$ASSETS_PATH` or `@webroot/uploads`.
 
 Also check `config/filesystems.php` if it exists:
+
 ```php
 // The 'path' or 'root' key holds the base path
 'myFilesystem' => [
@@ -65,11 +68,11 @@ The content for Kirby CMS is stored with the `content` folder:
 # Sync content up: sync only content folder for Kirby CMS
 rsync -av ./content/ APP_ENV_ID@ssh.REGION.frbit.app:./content/
 
-# Sync content up: sync only content folder for Kirby CMS
+# Sync content down: pull content folder for Kirby CMS
 rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./content/ ./content/
 ```
 
-Likely the `media` folder needs a treatment like this too.s 
+The `media` folder may also need syncing — apply the same pattern.
 
 ---
 
@@ -90,7 +93,7 @@ rsync -avR \
   ./public/assets \
   APP_ENV_ID@ssh.REGION.frbit.app:./
 
-# Sync content down:: pull remote content to local for Statamic
+# Sync content down: pull remote content to local for Statamic
 rsync -av 'APP_ENV_ID@ssh.REGION.frbit.app:./content' ./
 rsync -av 'APP_ENV_ID@ssh.REGION.frbit.app:./users' ./
 rsync -av 'APP_ENV_ID@ssh.REGION.frbit.app:./resources/blueprints' ./resources/

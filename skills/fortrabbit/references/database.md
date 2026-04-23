@@ -9,47 +9,27 @@ The MySQL credentials for your environment are shown in the dashboard under:
 
 ## Create an SSH tunnel (required for all local DB operations)
 
-Open a dedicated terminal window and keep it running:
+Keep this running in a dedicated terminal window:
 
 ```shell
-# Terminal window 1 — keep this open
 ssh -N -L 13306:mysql:3306 APP_ENV_ID@ssh.REGION.frbit.app
-# No output is expected. That means it worked. Open a new terminal window.
 ```
 
-The tunnel maps `localhost:13306` on your machine to the remote MySQL server. Port 13306 is the convention; any port in the range 1025–65535 works. Remote port must always be 3306.
+No output = success. Maps `localhost:13306` → remote port 3306.
 
 ---
 
 ## Get and store the remote database password
 
-The remote database requires a password for connection. Get the password from the fortrabbit dashboard:
+Find the password at **Dashboard → Environment → MySQL → Access**.
 
-**Dashboard → Environment → MySQL → Access**
-
-To avoid entering the password each time, store it locally:
-
-### Option 1: Store in .env (recommended for secrets)
-
-Add to your `.env` file:
+Store it in `.env` (make sure `.env` is in `.gitignore`):
 
 ```env
 FORTRABBIT_DB_PASSWORD=your_actual_password_here
 ```
 
-Make sure `.env` is in `.gitignore`.
-
-### Option 2: Store in .fortrabbit
-
-If you prefer to keep all fortrabbit config together, add to `.fortrabbit`:
-
-```text
-app-env-id=en-xxxxxx
-region=eu-w1a
-db-password=your_actual_password_here
-```
-
-Then update your database commands to use the stored password instead of prompting.
+Commands below show `-p` (prompt) and `-p$FORTRABBIT_DB_PASSWORD` (env var) variants.
 
 ---
 
@@ -73,6 +53,7 @@ mysql -uLOCAL_DB_USER -p LOCAL_DB_NAME < fortrabbit-backup.sql
 ```
 
 For DDEV:
+
 ```shell
 mysqldump --set-gtid-purged=OFF --no-tablespaces \
   -h127.0.0.1 -P13306 -uAPP_ENV_ID -p APP_ENV_ID > fortrabbit-backup.sql
@@ -101,6 +82,7 @@ mysql -h127.0.0.1 -P13306 -uAPP_ENV_ID -p$FORTRABBIT_DB_PASSWORD APP_ENV_ID < lo
 ```
 
 For DDEV:
+
 ```shell
 ddev export-db > local-dump.sql
 mysql -h127.0.0.1 -P13306 -uAPP_ENV_ID -p APP_ENV_ID < local-dump.sql

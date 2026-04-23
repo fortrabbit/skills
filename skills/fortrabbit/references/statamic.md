@@ -12,10 +12,19 @@ If no Statamic project exists yet, install one:
 
 ```bash
 composer create-project statamic/statamic .
-php please make:user
 ```
 
-This requires the current folder to be empty. If the skills are installed per-project, a `.claude/` directory already exists and Composer will refuse. In that case, reinstall the skills globally (see README) or install Statamic into a subdirectory first and move the files up.
+Requires an empty folder. If `.claude/` or `.fortrabbit` exists, install into a subdirectory first and move files up, or reinstall the skills globally.
+
+## Create a local admin user
+
+Ask the user for their email address, suggest something you know about the user, then generate a random password and create the user non-interactively:
+
+```bash
+php please make:user EMAIL --super --password=GENERATED_PASSWORD
+```
+
+Show the generated credentials clearly so the user can save them. Note that the password will appear in shell history — they can change it later via the Statamic control panel or by running the command again. The password is hashed before storage.
 
 ## Choose a deployment strategy
 

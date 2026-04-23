@@ -13,7 +13,7 @@ composer create-project craftcms/craft .
 php craft setup
 ```
 
-This requires the current folder to be empty. If the skills are installed per-project, a `.claude/` directory already exists and Composer will refuse. In that case, reinstall the skills globally (see README) or install Craft into a subdirectory first and move the files up.
+Requires an empty folder. If `.claude/` exists, install into a subdirectory first and move files up, or reinstall the skills globally.
 
 ## Choose a deployment strategy
 

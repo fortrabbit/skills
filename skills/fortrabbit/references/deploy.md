@@ -15,16 +15,6 @@ If the intent is unclear, default to asking.
 
 Only, if the user selected Git deployment, continue here. Git must be initialized and the repository connected to a GitHub remote. If either is missing, see [setup-git-github.md](setup-git-github.md) first. If you cannot use GitHub, fall back to rsync via [sync.md](sync.md).
 
-## How deployment works
-
-fortrabbit deploys code via Git. The recommended workflow:
-
-1. You push code to GitHub (your Git provider)
-2. The fortrabbit GitHub app detects the push
-3. A deployment is triggered automatically
-4. The build pipeline runs (Composer install, build commands)
-5. Post-deploy commands run (artisan migrate, cache:clear, etc.) on fortrabbit
-
 ## Trigger deployment via git push (recommended)
 
 ```shell
@@ -76,31 +66,9 @@ Deploy hooks are useful for:
 Deployment history and logs are visible in the dashboard under:
 **Dashboard → Environment → Deployments**
 
-## Common post-deploy commands by framework
+## Post-deploy commands
 
-These run automatically after each deployment if configured in the dashboard:
-
-**Laravel:**
-```bash
-php artisan migrate --force
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-```
-
-**Craft CMS:**
-```bash
-php craft project-config/apply
-php craft clear-caches/all
-```
-
-**Statamic:**
-```bash
-php artisan statamic:stache:warm
-```
-
-Configure these in the dashboard under:
-**Dashboard → Environment → Deployment → Post deploy commands**
+Configure framework-specific commands (migrations, cache:clear) in the dashboard under **Deployment → Post deploy commands**. For the full command list per framework, see [ssh-exec.md](ssh-exec.md).
 
 ## Troubleshooting a failed deployment
 

@@ -2,75 +2,9 @@
 
 This reference helps identify whether the current project already has a local development environment configured.
 
-## Look for DDEV
-
-DDEV is a strong signal that local development is configured.
-
-- Check for the `.ddev` directory.
-- Check for `.ddev/config.yaml`.
-
-If both exist, DDEV is likely set up.
-
-```shell
-ls -a .ddev
-cat .ddev/config.yaml
-```
-
-## Look for other container-based tooling
-
-Check for other common local dev configuration files:
-
-- `.lando.yml` or `lando.yml` — Lando project
-- `docker-compose.yml` or `docker-compose.override.yml` — Docker Compose setup
-- `.devcontainer/devcontainer.json` — VS Code dev container
-- `Dockerfile` — containerized local development
-
-## Look for editor or IDE configuration
-
-These files may indicate a prepared local workflow rather than just source code:
-
-- `.vscode/settings.json`
-- `.vscode/launch.json`
-- `.idea/` or `.idea/workspace.xml`
-
-## Detecting local vs remote-only setup
-
-A remote-only or simple deployment repo may still have code but lack local dev scaffolding. If you find:
-
-- `composer.json` but no `.ddev`, `docker-compose.yml`, or local config files
-- `wp-config.php` with no `.env` or env loader references
-- no `.vscode`, `.devcontainer`, or other editor tooling
-
-then the repository is maybe not fully configured for local development yet.
-
-## Look for local PHP and MySQL
-
-Check whether PHP and MySQL are available natively on the machine (outside any container).
-
-```shell
-# PHP
-php --version 2>/dev/null && echo "PHP found"
-
-# MySQL client
-mysql --version 2>/dev/null && echo "MySQL client found"
-
-# MySQL server running (macOS / Linux)
-mysqladmin ping 2>/dev/null && echo "MySQL server responding"
-# or
-pgrep -x mysqld >/dev/null 2>&1 && echo "mysqld process running"
-pgrep -x mysql.server >/dev/null 2>&1 && echo "mysql.server process running"
-```
-
-Common native-stack installations to check for:
-
-- **Homebrew (macOS):** `brew services list | grep mysql` — look for `started`
-- **Valet (macOS):** check for `~/.config/valet/` or run `valet status`
-- **MAMP / XAMPP:** check for `/Applications/MAMP` or `/Applications/XAMPP`
-- **Herd (macOS):** check for `~/.config/herd/` or run `herd status`
-
-If both PHP and a running MySQL server are found, a native local stack is a viable option — see below.
-
 ## Recommended checks
+
+Run these to detect container-based and native local setups:
 
 ```shell
 # Strong signals for local dev setup based on containers
