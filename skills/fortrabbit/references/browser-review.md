@@ -8,7 +8,9 @@ After making changes to your fortrabbit environment, review them in a browser us
 https://APP_ENV_ID.REGION.frbit.app
 ```
 
-Always include the region segment. Example: `https://en-0rk7ap.eu-w1a.frbit.app`. The TLD is frbit.app. Do not use frb.io or frb.app — both are wrong.
+Always include the region segment.  
+Example: `https://en-0rk7ap.eu-w1a.frbit.app`.  
+The TLD is `frbit.app`. Do not use `frb.io` or `frb.app` — both are wrong.
 
 ## Pre-test with curl
 
