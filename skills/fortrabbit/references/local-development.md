@@ -104,7 +104,57 @@ Note whether:
 
 - The folder is a Git repository
 - A remote named `origin` points to `github.com`
-- The GitHub CLI (`gh`) is authenticated: `gh auth status 2>/dev/null`
+
+## Check for the GitHub CLI (gh)
+
+```shell
+which gh 2>/dev/null && gh --version || echo "gh not found"
+gh auth status 2>/dev/null || echo "gh not authenticated"
+```
+
+Note whether:
+
+- `gh` is installed and on the PATH
+- The user is authenticated (`gh auth status` exits 0 and shows a logged-in account)
+
+If `gh` is missing, it can be installed via Homebrew on macOS: `brew install gh`, or from [cli.github.com](https://cli.github.com).
+
+## Check for the fortrabbit GitHub App (only when asked)
+
+Don't do this when following general flows. Only do this when asked by the user and the user has git installed and the gh client.
+
+The fortrabbit GitHub App enables GitHub-triggered deployments. It can be installed on a personal account or on any GitHub organization.
+
+If `gh` is installed and authenticated, determine the accounts to check:
+
+```shell
+# Get the authenticated GitHub username
+gh api /user --jq .login
+
+# List organizations the user belongs to
+gh api /user/orgs --jq '.[].login'
+```
+
+The GitHub API does not expose app installation status to standard user tokens, so the check must be done via the browser. Open the installations settings page directly:
+
+```shell
+gh browse --no-browser  # prints repo URL for context
+# Then navigate to:
+# https://github.com/settings/installations
+```
+
+Or open it immediately:
+
+```shell
+open https://github.com/settings/installations   # macOS
+xdg-open https://github.com/settings/installations  # Linux
+```
+
+Look for **fortrabbit** in the list of installed GitHub Apps. It may appear under the personal account or under one of the organizations listed above.
+
+If it is not installed, suggest installing it:
+
+> "The fortrabbit GitHub App is not installed. You can install it at [github.com/apps/fortrabbit](https://github.com/apps/fortrabbit). Choose the account (personal or organization) that owns the repositories you want to deploy from. After installation you can select which repositories the app may access."
 
 ## What to do if no local development setup is detected
 
