@@ -46,6 +46,24 @@ Check `.env` for any env vars those keys reference. The path is often something 
 
 Volumes backed by a remote filesystem (S3, etc.) do not need rsync — skip those.
 
+After running the grep, resolve the results:
+
+```
+IF exactly one local volume path found
+  → Use it. Show the rsync command and ask: "Ready to sync this path?"
+
+IF multiple local volume paths found
+  → List them and ask: "I found these volume paths. Which ones should I sync?
+      1) path/one
+      2) path/two
+      (Enter numbers separated by commas, e.g. 1,2 — or type 'all')"
+    Run rsync for each selected path. Show each command before running it.
+
+IF no paths found
+  → Ask: "I couldn't find the volume paths automatically. What is the path to your uploads folder? (e.g. web/uploads)"
+    Use the path provided. Show the rsync command and ask for confirmation.
+```
+
 **Step 2 — sync each local volume path:**
 
 ```shell
@@ -56,7 +74,7 @@ rsync -av ./VOLUME_PATH/ APP_ENV_ID@ssh.REGION.frbit.app:./VOLUME_PATH/
 rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./VOLUME_PATH/ ./VOLUME_PATH/
 ```
 
-Repeat for each volume that uses local storage.
+Repeat for each selected volume. Apply the dry-run gate from [sync.md](sync.md) before each rsync.
 
 ---
 
@@ -125,7 +143,8 @@ rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./wp-content/uploads/ ./wp-content/upl
 ## Notes
 
 - rsync uses your local SSH key — the same key registered in the dashboard.
-- Syncing down overwrites local files. Warn the user before running a down-sync.
+- Syncing down overwrites local files. Always warn the user before running a down-sync and require explicit confirmation.
+- Always show the full rsync command before running it. Apply the dry-run gate from [sync.md](sync.md) for any sync that includes `--delete` or is a first-time sync.
 - For rsync flags and dry-run usage, see [sync.md](sync.md).
 
 After syncing content up, review changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.

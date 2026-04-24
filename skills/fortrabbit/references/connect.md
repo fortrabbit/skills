@@ -6,7 +6,7 @@ Ask the user:
 
 > "Do you have a fortrabbit account?"
 
-- **No account yet:** Direct them to sign up at [dash.fortrabbit.com/signup](https://dash.fortrabbit.com/signup) — there is a free trial, no credit card required to start. Once signed up, continue to Step 2.
+- **No account yet:** Direct them to sign up at [dash.fortrabbit.com/signup](https://dash.fortrabbit.com/signup) — there is a free trial, no credit card required to start. Then say: "Let me know when you're signed up and I'll continue." Wait for the user to confirm before proceeding.
 - **Yes:** Continue to Step 2.
 
 ---
@@ -17,7 +17,7 @@ Ask the user:
 
 > "Do you already have an app on fortrabbit?"
 
-- **No app yet:** Direct them to create one at [dash.fortrabbit.com/new/app](https://dash.fortrabbit.com/new/app). Once the app is created, the dashboard shows the environment ID and region needed in the next step.
+- **No app yet:** Direct them to create one at [dash.fortrabbit.com/new/app](https://dash.fortrabbit.com/new/app). Then say: "Let me know when the app is created — the dashboard will show the environment ID and region you'll need next." Wait for the user to confirm before proceeding.
 - **Yes:** Continue to Step 3.
 
 ---
@@ -50,24 +50,52 @@ This file contains no secrets and can safely be committed to Git.
 
 ```shell
 # Replace APP_ENV_ID and REGION with your values
-ssh APP_ENV_ID@ssh.REGION.frbit.app echo "Connection OK"
+ssh -o ConnectTimeout=10 APP_ENV_ID@ssh.REGION.frbit.app echo "Connection OK"
 ```
 
-A successful connection prints the fortrabbit welcome banner followed by "Connection OK". If the connection fails, load [ssh-key-setup.md](ssh-key-setup.md) and follow the setup and troubleshooting steps there.
+A successful connection prints the fortrabbit welcome banner followed by "Connection OK".
+
+If the connection fails, classify the error:
+
+```
+IF error contains "Permission denied (publickey)"
+  → Load ssh-key-setup.md (SSH public key is missing or not registered in the dashboard)
+
+ELSE IF error contains "Connection timed out" OR "Connection refused" OR "Network is unreachable"
+  → Tell the user: "Could not reach fortrabbit. Check:
+      1. Is your internet connected?
+      2. Is port 22 blocked by a firewall or VPN?
+      3. Is the region correct? You entered: REGION"
+  Ask: "Which of these might be the issue?"
+
+ELSE (any other error)
+  → Show the full error output and say: "Something unexpected happened. Here's the error: [ERROR]. What do you see?"
+```
 
 ---
 
 ## Step 6 — Continue to software setup
 
-**If the software stack is already known** (detected earlier via `start.md` or visible in the project folder), load the matching guide directly:
+```
+IF software stack was already detected (via start.md or visible project files)
+  → Load the matching guide directly:
+    WordPress    → wordpress.md
+    Craft CMS    → craft-cms.md
+    Statamic     → statamic.md
+    Kirby        → kirby-cms.md
+    Laravel      → deploy.md
+    Generic PHP  → deploy.md
 
-- WordPress → `wordpress.md`
-- Craft CMS → `craft-cms.md`
-- Statamic → `statamic.md`
-- Kirby → `kirby-cms.md`
-- Laravel → `deploy.md`
-- Generic PHP → `deploy.md`
+ELSE IF no software was detected yet (project files exist but type is unknown)
+  → Load software-detection.md now, then return and load the matching guide above
 
-**If no software was detected yet**, run detection now — see [software-detection.md](software-detection.md).
-
-**If the folder is empty** (no project exists yet), ask the user which software they want to use and load the matching guide from the list above. The guide will walk through local installation first.
+ELSE IF folder is empty (no project files at all)
+  → Ask: "Which software would you like to use?
+      - WordPress
+      - Craft CMS
+      - Kirby
+      - Statamic
+      - Laravel
+      - Other PHP"
+    Load the matching guide from the list above (it will walk through local installation first)
+```

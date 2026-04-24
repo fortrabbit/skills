@@ -7,12 +7,36 @@ The MySQL credentials for your environment are shown in the dashboard under:
 
 ---
 
-## Create an SSH tunnel (required for all local DB operations)
+## Create and verify the SSH tunnel (required for all local DB operations)
 
-Keep this running in a dedicated terminal window:
+**Step 1 — Open the tunnel.** Show this command and say: "Open a new terminal window and run this. Leave it running — it produces no output when working correctly:"
 
 ```shell
 ssh -N -L 13306:mysql:3306 APP_ENV_ID@ssh.REGION.frbit.app
+```
+
+Then ask: "Ready? Let me know when the tunnel is open."
+
+**Step 2 — Verify the tunnel** before running any database commands. Run:
+
+```shell
+mysql -h127.0.0.1 -P13306 -uAPP_ENV_ID --connect-timeout=5 -e "SELECT 1;" 2>&1
+```
+
+Interpret the result:
+
+```
+IF output contains "1"
+  → Tunnel confirmed. Proceed with database operations.
+
+IF error contains "Connection refused" OR "Can't connect"
+  → Tell the user: "The tunnel isn't open yet or it disconnected. Check the terminal window where you started it."
+
+IF error contains "Access denied"
+  → Tell the user: "Connected! But the credentials are wrong. Check DB_USER and DB_PASS in the dashboard."
+
+IF command times out
+  → Tell the user: "Can't reach the tunnel. Check that port 22 is not blocked and the SSH command is still running."
 ```
 
 No output = success. Maps `localhost:13306` → remote port 3306.

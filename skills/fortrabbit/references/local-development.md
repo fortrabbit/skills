@@ -94,55 +94,49 @@ If it is not installed, suggest installing it:
 
 No local development environment was detected in this folder.
 
-**Ask the user about their preference before suggesting a setup.** A good prompt:
+First, check what tooling is already available on the machine (the checks above will have revealed this). Then apply this decision tree:
 
-> "No local development environment was found in this project. How would you like to set one up? Options depend on what's available on your machine:
->
-> - **Native PHP + MySQL** (if PHP and MySQL are already running locally — lighter weight, no Docker required)
-> - **DDEV** (Docker-based, cross-platform, recommended for teams)
-> - **Laravel Valet / Herd** (macOS only, zero-config for Laravel and other PHP apps)
-> - **Lando** (Docker-based, flexible)
-> - **Skip for now** and work with the remote environment only"
-
-### If native PHP + MySQL are present
-
-When PHP is available and a local MySQL server is running, offer the native stack as a first-class option — it requires no additional tooling:
-
-1. Create a local database: `mysql -u root -e "CREATE DATABASE myapp;"`
-2. Copy `.env.example` to `.env` and set `DB_HOST=127.0.0.1`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
-3. Run `composer install`.
-4. Run framework-specific setup (e.g. `php artisan key:generate` for Laravel, `php craft setup` for Craft).
-5. Use the built-in PHP server (`php -S localhost:8000 -t public`) or configure a virtual host in Valet/Herd/MAMP.
-
-### If no native stack is found — ask about intent first
-
-Before recommending a setup, ask the user:
-
-> "Are you setting this up for a real project (team, client, ongoing work), or just testing and exploring?"
-
-**Testing / exploring:**
-
-For file-based CMS projects (Kirby, Statamic) that don't require a database, the built-in PHP server is often sufficient — no Docker needed:
-
-```bash
-php -S localhost:8000 -t public
 ```
+IF DDEV is installed (ddev version succeeded)
+  → Say: "DDEV is already installed. Run these two commands to start your local environment:
+      ddev config
+      ddev start"
+  → Done. No further questions needed.
 
-For Kirby, the document root is typically the project root (not `public/`):
+ELSE (DDEV not installed)
+  → Ask: "Is this for an ongoing project (team, client, long-term work), or just testing and exploring?"
 
-```bash
-php -S localhost:8000
+  IF testing/exploring:
+    IF CMS is Kirby OR Statamic (file-based, no database needed)
+      → Say: "For quick testing, you can use the built-in PHP server — no Docker required."
+        For Statamic: php -S localhost:8000 -t public
+        For Kirby:    php -S localhost:8000
+    ELSE (WordPress, Craft CMS, Laravel — database required)
+      → Say: "Even for testing, this project needs a database. The quickest option is DDEV:
+          ddev config && ddev start
+        It handles PHP and MySQL automatically."
+
+  IF ongoing/team project:
+    IF native PHP + MySQL are both available (php --version and mysqladmin ping both succeed)
+      → Offer native stack first:
+        Say: "PHP and MySQL are already running locally — you can use the native stack (no Docker needed):
+          1. mysql -u root -e 'CREATE DATABASE myapp;'
+          2. Copy .env.example to .env and set DB_HOST=127.0.0.1, DB_DATABASE, DB_USERNAME, DB_PASSWORD
+          3. composer install
+          4. [framework-specific setup command]
+          5. php -S localhost:8000 -t public
+        Or I can guide you through DDEV instead. Which do you prefer?"
+    ELSE
+      → Ask: "Which local setup would you prefer?
+          1. DDEV (recommended — Docker-based, matches fortrabbit environment, works on all platforms)
+          2. Laravel Herd or Valet (macOS only — zero-config for Laravel and PHP apps)
+          3. Lando (Docker-based, flexible config)
+          4. Docker Compose (manual setup)
+        Enter a number."
+      Guide setup based on the answer.
+
+  IF user answers "skip for now"
+    → Say: "No problem. You can work directly with the remote environment using /fortrabbit ssh commands. Run /fortrabbit ssh to get started."
 ```
-
-This starts immediately with no configuration. Suggest this first for low-stakes use.
-
-**Serious / ongoing project:**
-
-Recommend DDEV for projects that need a database (WordPress, Craft, Laravel), team consistency, or environment parity with fortrabbit:
-
-- Create a DDEV project: `ddev config` then `ddev start`
-- Add a `.env` file or env loader to keep settings portable
-- Run `composer install` if `composer.json` exists
-- For WordPress, make sure `wp-config.php` supports env vars and local database fallbacks
 
 Learn more in the [fortrabbit local development docs](https://docs.fortrabbit.com/integrations/local-development/intro).

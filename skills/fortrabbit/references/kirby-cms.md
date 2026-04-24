@@ -16,7 +16,24 @@ Requires an empty folder. If `.claude/` or `.fortrabbit` exists, install into a 
 
 ## Choose a deployment strategy
 
-Ask the user which workflow fits their project:
+Ask:
+
+> "How do you want to deploy?
+>   A) Rsync (recommended for solo) — sync all files directly without Git
+>   B) Git + rsync (recommended for teams) — code in GitHub, content synced separately with rsync"
+
+```
+IF answer == A (rsync)
+  → Load sync.md
+
+IF answer == B (Git)
+  → Load setup-git-github.md
+
+IF unsure
+  → Ask: "Are you working solo or with a team?"
+    IF solo → recommend A (rsync), load sync.md
+    IF team → recommend B (Git + rsync), load setup-git-github.md
+```
 
 **Option A — Full rsync**
 All files (including code) are transferred via rsync. No Git required. Best for solo developers or projects where the server is the source of truth. See [sync.md](sync.md) for the full rsync workflow.

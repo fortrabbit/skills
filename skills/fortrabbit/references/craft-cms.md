@@ -17,9 +17,26 @@ Requires an empty folder. If `.claude/` or `.fortrabbit` exists, install into a 
 
 ## Choose a deployment strategy
 
-Ask the user which workflow fits their project:
+Ask:
 
-**Option A — Git deployment (recommended)**
+> "How do you want to deploy?
+>   A) Git (recommended for real projects) — code in GitHub, auto-deploys on push
+>   B) Rsync (recommended for demo) — sync all files directly without Git"
+
+```
+IF answer == A (Git)
+  → Load setup-git-github.md
+
+IF answer == B (rsync)
+  → Load sync.md
+
+IF unsure
+  → Ask: "Are you working solo or with a team?"
+    IF solo → recommend B (rsync), load sync.md
+    IF team → recommend A (Git), load setup-git-github.md
+```
+
+**Option A — Git deployment (recommended for teams)**
 Code and project config live in Git. Deployments are triggered by pushing to GitHub with automatic post-deploy commands (migrations, cache clearing). Best for teams and projects with evolving schema.
 
 **Option B — Full rsync**

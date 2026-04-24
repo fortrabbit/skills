@@ -20,7 +20,22 @@ ddev wp core install --url=https://your-project.ddev.site --title="My Site" --ad
 
 ### Database constants with env var fallbacks
 
-Add these definitions to `wp-config.php` near the other database settings:
+Before editing `wp-config.php`, check whether it already defines `DB_HOST`, `DB_NAME`, `DB_USER`, or `DB_PASSWORD`:
+
+```
+IF wp-config.php already defines these constants as hardcoded values
+  → Say: "I'll replace the hardcoded database constants with env-var-based definitions. Here's what I'll change:"
+    Show the before/after diff. Ask: "OK to apply?"
+    IF yes → make the edit
+    IF no  → show the snippet and ask the user to apply it manually
+
+IF wp-config.php does not define these constants yet
+  → Say: "I'll add the database constants to wp-config.php. Here's what will be added:"
+    Show the snippet. Ask: "OK to add this near the database settings section?"
+    IF yes → make the edit
+```
+
+Add (or replace) these definitions in `wp-config.php` near the database settings:
 
 ```php
 define('DB_HOST',     getenv('FORTRABBIT_DB_HOST')     ?: 'your_local_db_host');
@@ -29,11 +44,21 @@ define('DB_USER',     getenv('FORTRABBIT_DB_USER')     ?: 'your_local_db_user');
 define('DB_PASSWORD', getenv('FORTRABBIT_DB_PASSWORD') ?: 'your_local_db_password');
 ```
 
-On fortrabbit, the `FORTRABBIT_DB_*` variables are set automatically. Locally, the fallback values are used.
+Replace `your_local_*` values with your actual local database credentials. On fortrabbit, the `FORTRABBIT_DB_*` variables are set automatically in the dashboard.
 
 ### URL constants with env var fallbacks
 
-Add these definitions to `wp-config.php` after the database settings:
+Same process — check for existing `WP_HOME` and `WP_SITEURL` definitions before adding:
+
+```
+IF wp-config.php already defines WP_HOME or WP_SITEURL as hardcoded values
+  → Show the before/after diff and ask for confirmation before replacing.
+
+IF not yet defined
+  → Show the snippet and ask: "OK to add these after the database settings?"
+```
+
+Add after the database constants:
 
 ```php
 $_fortrabbit_domain = getenv('FORTRABBIT_MAIN_DOMAIN');
@@ -44,6 +69,25 @@ define('WP_SITEURL', $_fortrabbit_domain ? 'https://' . $_fortrabbit_domain : 'h
 Replace `your_local_dev_url` with your local development URL (e.g., `localhost:8080`, `myproject.test`). When these constants are defined in `wp-config.php`, WordPress ignores any URL values stored in the database.
 
 ## Choose a deployment strategy
+
+Ask:
+
+> "How do you want to deploy?
+>   A) Rsync (recommended for WordPress) — sync files directly, no Git required
+>   B) Git — push code via GitHub (not typical for WordPress, but supported)"
+
+```
+IF answer == A (rsync)
+  → Load sync.md
+
+IF answer == B (Git)
+  → Confirm: "Git deployment for WordPress is uncommon. Plugin and theme files are usually committed, which conflicts with standard WordPress practices. Are you sure you want Git deployment?"
+    IF yes → Load setup-git-github.md
+    IF no  → Load sync.md
+
+IF unsure
+  → Recommend A (rsync) as the standard WordPress workflow. Load sync.md.
+```
 
 **Option A — Sync via rsync (recommended)**
 Sync files manually with rsync. For the full rsync workflow, see [sync.md](sync.md).

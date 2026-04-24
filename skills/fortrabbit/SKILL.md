@@ -14,7 +14,7 @@ You are the fortrabbit deployment assistant. Help the user manage their website 
 
 ## Step 0 — Periodic update check
 
-Run this silently on every first invocation before doing anything else. Do not mention it to the user unless an update is found. Don't run this check more than once per day.
+Run this silently before any user-facing action on first invocation within a session. Do not mention it to the user unless an update is found. Skip if already run this session.
 
 Find the skill install directory:
 
@@ -40,22 +40,21 @@ If the result is greater than `604800` (7 days):
    ```sh
    date +%s > "$SKILL_DIR/.last-update-check"
    ```
-2. Fetch `https://raw.githubusercontent.com/fortrabbit/skills/main/VERSION` and trim whitespace.
+2. Fetch `https://raw.githubusercontent.com/fortrabbit/skills/main/VERSION` with a 5-second timeout. If the fetch times out or fails (network error, non-200), skip silently — do **not** update the timestamp so the check retries next session.
 3. Read `$SKILL_DIR/.version` for the local version.
-4. If they differ, tell the user: "fortrabbit skills v{REMOTE} is available (you have v{LOCAL}). Run `/fortrabbit update` to install."
+4. If remote version is non-empty and differs from local, tell the user: "fortrabbit skills v{REMOTE} is available (you have v{LOCAL}). Run `/fortrabbit update` to install."
 5. If they match, continue silently.
 
 ---
 
 ## Step 1 — Find the project configuration
 
-Look for `.fortrabbit` in the project root. If found, read `app-env-id` and `region` from it.
+Read config in this order (`.fortrabbit` is source of truth):
 
-If not found, look in `.env` for `FORTRABBIT_APP_ENV_ID` and `FORTRABBIT_REGION`.
-
-If still not found, ask the user:
-- "What is your fortrabbit app environment ID?" (format: `en-wjl0ai`)
-- "What region is your app in?" (default: `eu-w1a`)
+1. **Read `.fortrabbit` first.** If it exists, use `app-env-id` and `region` from it.
+2. **Supplement from `.env`** — if either value is missing from `.fortrabbit`, read `FORTRABBIT_APP_ENV_ID` and/or `FORTRABBIT_REGION` from `.env`.
+3. **If still missing**, ask the user: "What is your fortrabbit app environment ID?" (format: `en-wjl0ai`) and "What region is your app in?" (default: `eu-w1a`).
+4. **If both files define the same key with different values**, do not merge silently — ask: "I found two different app IDs: `[value-a]` (`.fortrabbit`) and `[value-b]` (`.env`). Which is correct?"
 
 For deploy hook operations, also read `FORTRABBIT_DEPLOY_HOOK_SECRET` from `.env`. Construct the URL as:
 `https://api.fortrabbit.com/webhooks/environments/{app-env-id}/deploy/{secret}`
@@ -76,36 +75,73 @@ This gives clean markdown instead of HTML.
 
 ## Step 2 — Route by intent
 
-Classify what the user wants, then load the appropriate reference file:
+Match the user's input against these conditions in order (first match wins):
 
-| User intent                                                           | Reference to load                                                    |
-| --------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| No arguments, first run, onboarding, "get started", "what can you do" | [references/start.md](references/start.md)                           |
-| First time connecting, "how do I connect", SSH keys                   | [references/connect.md](references/connect.md)                       |
-| SSH key generation, adding key to dashboard                           | [references/ssh-key-setup.md](references/ssh-key-setup.md)           |
-| Set up Git and GitHub for deployment                                  | [references/setup-git-github.md](references/setup-git-github.md)     |
-| Detect installed software or supported CMS                            | [references/software-detection.md](references/software-detection.md) |
-| Craft CMS config for local and fortrabbit environments                | [references/craft-cms.md](references/craft-cms.md)                   |
-| Kirby CMS config for local and fortrabbit environments                | [references/kirby-cms.md](references/kirby-cms.md)                   |
-| Detect local development tooling or dev container setup               | [references/local-development.md](references/local-development.md)   |
-| WordPress config for local and fortrabbit environments                | [references/wordpress.md](references/wordpress.md)                   |
-| Deploy, push code, trigger deployment, deploy hook                    | [references/deploy.md](references/deploy.md)                         |
-| Run a remote command, artisan, craft console, php script              | [references/ssh-exec.md](references/ssh-exec.md)                     |
-| Database: pull, push, dump, restore, migrate                          | [references/database.md](references/database.md)                     |
-| Content sync, rsync uploads, sync assets, sync down                   | [references/sync-content.md](references/sync-content.md)             |
-| Sync all files with rsync (no Git available)                          | [references/sync.md](references/sync.md)                             |
-| Review changes in browser using test domain                           | [references/browser-review.md](references/browser-review.md)         |
-| HTTP error (404, 500, 502, 503, 504), app not loading, curl fails     | [references/http-error-troubleshooting.md](references/http-error-troubleshooting.md) |
-| Update the skill files to the latest version                          | Run the update command below                                         |
-| Uninstall, remove the skill files                                     | Run the uninstall command below                                      |
-| General help                                                          | Show the capability summary below                                    |
+```
+IF input contains any of: "deploy", "push", "trigger", "hook", "git push"
+  → Load references/deploy.md
+
+ELSE IF input contains any of: "ssh key", "public key", "permission denied", "key setup", "add key"
+  → Load references/ssh-key-setup.md
+
+ELSE IF input contains any of: "ssh", "remote command", "artisan", "craft console", "wp-cli", "console"
+  → Load references/ssh-exec.md
+
+ELSE IF input contains any of: "database", "db pull", "db push", "db down", "db up", "mysql", "dump", "restore"
+  → Load references/database.md
+
+ELSE IF input contains any of: "content sync", "sync content", "sync uploads", "sync assets", "sync down", "sync up"
+  → Load references/sync-content.md
+
+ELSE IF input contains any of: "rsync", "sync files", "sync all", "upload files", "download files"
+  → Load references/sync.md
+
+ELSE IF input contains any of: "github", "git setup", "connect git", "setup deployment", "setup git"
+  → Load references/setup-git-github.md
+
+ELSE IF input contains any of: "review", "check site", "is it live", "test domain", "browser"
+  → Load references/browser-review.md
+
+ELSE IF input contains any of: "404", "500", "502", "503", "504", "not loading", "curl fails", "http error"
+  → Load references/http-error-troubleshooting.md
+
+ELSE IF input contains any of: "local", "local dev", "ddev", "valet", "herd", "lando", "docker"
+  → Load references/local-development.md
+
+ELSE IF input contains any of: "detect", "what cms", "which software", "project type"
+  → Load references/software-detection.md
+
+ELSE IF input contains any of: "craft", "craftcms"
+  → Load references/craft-cms.md
+
+ELSE IF input contains any of: "kirby"
+  → Load references/kirby-cms.md
+
+ELSE IF input contains any of: "wordpress", "wp"
+  → Load references/wordpress.md
+
+ELSE IF input contains any of: "connect", "onboard", "first time", "get started"
+  → Load references/connect.md
+
+ELSE IF input is empty or contains any of: "start", "help", "setup", "begin", "what can you do"
+  → Load references/start.md
+
+ELSE IF input contains any of: "update"
+  → Run the update command below
+
+ELSE IF input contains any of: "uninstall", "remove"
+  → Run the uninstall command below
+
+ELSE
+  → Ask: "What would you like to do? Options: deploy, run a remote command, sync the database, sync files, set up Git, check your site, or get started with onboarding."
+```
 
 ---
 
 ## Capability summary (shown for `/fortrabbit help`)
 
 ```
-fortrabbit skills — v0.1.1
+fortrabbit skills — v0.2.5
 
   /fortrabbit deploy         Trigger a deployment (via deploy hook or git push reminder)
   /fortrabbit ssh            Run a command on the remote environment via SSH
@@ -158,7 +194,10 @@ When the user invokes `/fortrabbit update`:
 - For SSH exec commands that modify state (artisan migrate, cache clear, queue flush): show the command and confirm.
 - Never run `DROP DATABASE`, `DROP TABLE`, or `TRUNCATE` without displaying the statement and requiring explicit user confirmation.
 - Never store database passwords in files. Use the SSH tunnel method only.
-- If the SSH connection fails, load [references/connect.md](references/connect.md) and help the user troubleshoot.
+- If the SSH connection fails, classify the error before acting:
+  - `Permission denied (publickey)` → Load [references/ssh-key-setup.md](references/ssh-key-setup.md)
+  - `Connection timed out`, `Connection refused`, `Network is unreachable` → Tell the user: "Could not reach fortrabbit. Check: (1) internet connection, (2) port 22 not blocked by firewall or VPN, (3) correct region." Ask which might be the issue.
+  - Any other error → Show the full error text and say: "Something unexpected happened. Here's the error: [ERROR]." then load [references/connect.md](references/connect.md).
 
 ---
 

@@ -1,19 +1,30 @@
 # Deploying to fortrabbit
 
-## Clarify intent first
+## Check Git state first
 
-Before proceeding, ask the user what they want to deploy:
+Before asking the user anything, run these two checks:
 
-> "Do you want to deploy **code** (via Git), or sync **files** (via rsync)?"
+```shell
+git rev-parse --git-dir 2>/dev/null && echo "repo=yes" || echo "repo=no"
+git remote get-url origin 2>/dev/null && echo "remote=yes" || echo "remote=no"
+```
 
-- **Git deployment** — pushing files, templates, config (continue below)
-- **File sync** — rsync all project files to remote without Git: see [sync.md](sync.md)
+Then route based on the result:
 
-If the intent is unclear, default to asking.
+```
+IF repo=yes AND remote=yes (Git is set up)
+  → Say: "Git is set up. You can deploy by pushing to GitHub — the fortrabbit GitHub App will trigger a deployment automatically.
+    Want to push now, or use rsync instead?"
+  IF push now → Run: git push origin [current-branch] (see below)
+  IF rsync    → Load sync.md
 
-## Prerequisites
-
-Only, if the user selected Git deployment, continue here. Git must be initialized and the repository connected to a GitHub remote. If either is missing, see [setup-git-github.md](setup-git-github.md) first. If you cannot use GitHub, fall back to rsync via [sync.md](sync.md).
+ELSE IF repo=no OR remote=no (Git is not set up or incomplete)
+  → Say: "Git deployment isn't configured yet. How would you like to deploy?
+      A) Set up Git now (connects GitHub → fortrabbit webhook, then push to deploy)
+      B) Skip Git and use rsync (upload all files directly)"
+  IF A → Load setup-git-github.md
+  IF B → Load sync.md
+```
 
 ## Trigger deployment via git push (recommended)
 
