@@ -24,6 +24,22 @@ Preview version.
 | `/fortrabbit uninstall`    | Remove all installed skill files                                |
 | `/fortrabbit help`         | Show all available commands                                     |
 
+## Configuration
+
+The skill reads project settings from a `.fortrabbit` file in your project root. The file uses a simple `key=value` format:
+
+```
+app-env-id=en-xxxxxx
+region=eu-w1a
+```
+
+| Key          | Description                                                           |
+| ------------ | --------------------------------------------------------------------- |
+| `app-env-id` | Your fortrabbit app environment ID (shown in the dashboard, e.g. `en-wjl0ai`) |
+| `region`     | The region your app is hosted in (e.g. `eu-w1a`, `us-e1a`)           |
+
+The file contains no secrets and **can be committed to Git**. During `/fortrabbit connect`, the skill creates this file for you automatically. It takes priority over the equivalent variables in `.env` (`FORTRABBIT_APP_ENV_ID`, `FORTRABBIT_REGION`).
+
 ## Install
 
 Run this anywhere to install globally for your user — available across all your projects:
