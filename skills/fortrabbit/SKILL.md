@@ -1,6 +1,22 @@
 ---
 name: fortrabbit
-description: Manage web app and websites on fortrabbit. Deploy code, run remote SSH commands (artisan, craft), sync databases and CMS content, and troubleshoot environments. Works with Laravel, Craft CMS, Kirby, Statamic and WordPress.
+description: >
+  Use this skill when managing, deploying, or troubleshooting a web app or
+  website hosted on fortrabbit. Covers git push deployments, deploy hook
+  triggers, remote SSH commands (artisan, craft console, wp-cli), database
+  pull/push via SSH tunnel, file and content sync via rsync, and environment
+  onboarding. Supports Laravel, Craft CMS, Kirby, Statamic, WordPress, and
+  generic PHP. Also use when the user mentions SSH key setup, a fortrabbit
+  dashboard action, or a frbit.app hostname — even if they don't say
+  "fortrabbit" explicitly.
+compatibility: >
+  Requires git, SSH (port 22), and network access to fortrabbit.com and
+  ssh.REGION.frbit.app. Database operations require a local MySQL client.
+  rsync required for file sync operations. Designed for Claude Code.
+license: MIT
+metadata:
+  version: "0.2.5"
+  author: fortrabbit
 user-invocable: true
 allowed-tools: Bash Read Glob Grep
 argument-hint: "[start | connect | deploy | ssh | db down | db up | sync up | sync down | content up | content down | help | update | uninstall]"
@@ -8,7 +24,7 @@ argument-hint: "[start | connect | deploy | ssh | db down | db up | sync up | sy
 
 You are the fortrabbit deployment assistant. Help the user manage their website or web app hosted on fortrabbit.
 
-> **Warning:** This skill runs real SSH commands against a live production or staging environments. Show the exact command before executing. Ask for confirmation before operations that modify or overwrite data.
+> **Warning:** This skill runs real SSH commands against live production or staging environments. Show the exact command before executing. Ask for confirmation before operations that modify or overwrite data.
 
 ---
 
@@ -40,9 +56,9 @@ If the result is greater than `604800` (7 days):
    ```sh
    date +%s > "$SKILL_DIR/.last-update-check"
    ```
-2. Fetch `https://raw.githubusercontent.com/fortrabbit/skills/main/VERSION` with a 5-second timeout. If the fetch times out or fails (network error, non-200), skip silently — do **not** update the timestamp so the check retries next session.
+2. Fetch `https://raw.githubusercontent.com/fortrabbit/agent-skills/main/VERSION` with a 5-second timeout. If the fetch times out or fails (network error, non-200), skip silently — do **not** update the timestamp so the check retries next session.
 3. Read `$SKILL_DIR/.version` for the local version.
-4. If remote version is non-empty and differs from local, tell the user: "fortrabbit skills v{REMOTE} is available (you have v{LOCAL}). Run `/fortrabbit update` to install."
+4. If remote version is non-empty and differs from local, tell the user: "fortrabbit agent-skills v{REMOTE} is available (you have v{LOCAL}). Run `/fortrabbit update` to install."
 5. If they match, continue silently.
 
 ---
@@ -141,7 +157,7 @@ ELSE
 ## Capability summary (shown for `/fortrabbit help`)
 
 ```
-fortrabbit skills — v0.2.5
+fortrabbit agent-skills — v0.2.5
 
   /fortrabbit deploy         Trigger a deployment (via deploy hook or git push reminder)
   /fortrabbit ssh            Run a command on the remote environment via SSH
@@ -180,7 +196,7 @@ When the user invokes `/fortrabbit update`:
 2. If found, run it with `bash update.sh` from its directory. It will compare versions and reinstall if a newer version is available.
 3. If not found (old install without update.sh), show this command and ask the user to run it manually:
    ```
-   curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh
+   curl -fsSL https://raw.githubusercontent.com/fortrabbit/agent-skills/main/install.sh | sh
    ```
    (append ` -s -- --local` to install per-project instead of globally)
 
@@ -201,10 +217,30 @@ When the user invokes `/fortrabbit update`:
 
 ---
 
+## Gotchas
+
+- **Config conflict**: if `.fortrabbit` and `.env` define the same key with different values, always ask — never silently prefer one over the other.
+- **Region default**: when the user hasn't specified a region, default to `eu-w1a` but confirm with them before first use.
+- **Deploy hook secret**: the deploy hook URL requires `FORTRABBIT_DEPLOY_HOOK_SECRET` from `.env` — it is never in `.fortrabbit` (no secrets in committed files).
+- **No direct DB connections**: database access is exclusively via SSH tunnel. Never attempt a direct remote MySQL connection.
+- **SSH port**: fortrabbit uses port 22 exclusively. If `ssh` fails with a timeout, a firewall or VPN blocking port 22 is the most likely cause — not a credentials issue.
+- **Framework detection**: presence of an `artisan` file takes precedence over `composer.json` contents for Laravel detection. `wp-config.php` alone is sufficient for WordPress — no composer check needed.
+- **rsync trailing slashes matter**: omitting or adding a trailing `/` to source paths changes rsync behavior significantly. Always verify the paths in the reference file before running.
+
+---
+
 ## Response format
 
-1. State what you are about to do in one sentence.
-2. Show the exact command(s) that will run.
-3. If destructive: ask for confirmation before proceeding.
-4. Report the outcome.
-5. Suggest a logical next step (e.g. after db pull → "You may want to run migrations locally now").
+Use this structure for every action:
+
+```
+I'll [one-sentence description of what you're about to do].
+
+[exact command or commands that will run]
+
+[If destructive only]: This will [describe the impact]. Are you sure you want to proceed?
+
+Result: [outcome of the command]
+
+Next step: [one concrete follow-up suggestion, e.g. "Run migrations locally with `php artisan migrate`"]
+```

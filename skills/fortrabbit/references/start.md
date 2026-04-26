@@ -21,13 +21,56 @@ Before routing, evaluate these four conditions:
 
 ## Step 1 — Detect the software stack
 
-Load `software-detection.md` and follow its detection procedure.
+Run this detection script:
+
+```shell
+if [ -f composer.json ]; then
+  grep -q 'craftcms/cms' composer.json && echo "Craft CMS"
+  grep -q 'statamic/cms' composer.json && echo "Statamic"
+  grep -q 'getkirby/cms' composer.json && echo "Kirby"
+  grep -q 'laravel/framework' composer.json && echo "Laravel"
+  echo "PHP project (composer.json present)"
+fi
+[ -f wp-config.php ] && echo "WordPress"
+[ -d wp-content ] && echo "WordPress (wp-content)"
+[ -f artisan ] && echo "Laravel (artisan)"
+[ -f bin/craft ] && echo "Craft CMS (bin/craft)"
+[ -d site/plugins ] && echo "Kirby (site/plugins)"
+```
+
+Apply this priority order (first match wins):
+
+```
+1. wp-config.php OR wp-content/ → WordPress
+2. craftcms/cms in composer.json OR bin/craft → Craft CMS
+3. statamic/cms in composer.json → Statamic
+4. getkirby/cms in composer.json OR site/plugins/ → Kirby
+5. laravel/framework in composer.json OR artisan at root → Laravel
+6. composer.json exists (none above matched) → Generic PHP
+7. No signals → Ask: "I couldn't detect a PHP project here. What are you using?
+     (WordPress / Craft CMS / Kirby / Statamic / Laravel / Other PHP)"
+```
+
+If detection is ambiguous or signals conflict, load `software-detection.md` for deeper investigation.
 
 ---
 
-## Step 2 — Check local development setup
+## Step 2 — Check project and Git state
 
-Load `local-development.md` and follow its detection procedure. This covers local dev tooling, Git and GitHub status, and whether the project is ready to run locally.
+Run:
+
+```shell
+# Check fortrabbit config
+[ -f .fortrabbit ] && cat .fortrabbit || echo "no .fortrabbit"
+grep -s 'FORTRABBIT_APP_ENV_ID' .env 2>/dev/null && echo ".env has app-env-id" || true
+
+# Check git state
+git rev-parse --git-dir 2>/dev/null && echo "git repo" || echo "no git repo"
+git remote get-url origin 2>/dev/null && echo "origin: $(git remote get-url origin)" || echo "no origin remote"
+git status --porcelain 2>/dev/null | head -5
+```
+
+Use the results to evaluate the four conditions defined above.
 
 ---
 

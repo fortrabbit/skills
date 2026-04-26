@@ -4,8 +4,6 @@ WordPress requires a database. Use environment variables to make the same `wp-co
 
 ## Check local setup
 
-Check whether a WordPress project exists in the current folder — see [software-detection.md](software-detection.md). If no project is found, check the local development environment first — see [local-development.md](local-development.md).
-
 If no WordPress project exists yet, DDEV is the recommended local setup:
 
 ```bash
@@ -90,7 +88,7 @@ IF unsure
 ```
 
 **Option A — Sync via rsync (recommended)**
-Sync files manually with rsync. For the full rsync workflow, see [sync.md](sync.md).
+Sync files manually with rsync. Use `/fortrabbit sync` for the full workflow.
 
 **Option B — Deploy via Git**
 Git deployment is not recommended for WordPress. If your project is connected to GitHub and the fortrabbit GitHub App:
@@ -99,14 +97,14 @@ Git deployment is not recommended for WordPress. If your project is connected to
 2. The fortrabbit GitHub App will automatically trigger a deployment.
 3. Check deployment status in the dashboard.
 
-For setup instructions, see [setup-git-github.md](setup-git-github.md).
+For setup instructions, use `/fortrabbit deploy` and follow the Git setup flow.
 
 ## After deployment: Update the database
 
-After deploying code changes, you may need to update the database. For database pull/push operations, see [database.md](database.md).
+After deploying code changes, you may need to update the database. Use `/fortrabbit db pull` or `/fortrabbit db push`.
 
 ## Notes
 
 - `DB_HOST` on fortrabbit is typically an internal host name, not `localhost`.
 - Keep `.env` in `.gitignore`; never commit secrets to Git.
-- Review changes in the browser after deployment: [browser-review.md](browser-review.md).
+- After deployment, check your site at `https://APP_ENV_ID.REGION.frbit.app`. Use `/fortrabbit review` for a full response check with error diagnosis.

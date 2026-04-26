@@ -64,10 +64,27 @@ Check signals in this exact order (first match wins):
   - `Connection timed out` / `Connection refused` / `Network is unreachable` → Tell the user to check (1) internet connection, (2) port 22 not blocked by firewall/VPN, (3) correct region
   - Any other error → Show the full error text and ask what they see
 
+## Gotchas
+
+- **Config conflict**: if `.fortrabbit` and `.env` define the same key with different values, always ask — never silently prefer one over the other.
+- **Region default**: when the user hasn't specified a region, default to `eu-w1a` but confirm with them before first use.
+- **Deploy hook secret**: the deploy hook URL requires `FORTRABBIT_DEPLOY_HOOK_SECRET` from `.env` — it is never in `.fortrabbit` (no secrets in committed files).
+- **No direct DB connections**: database access is exclusively via SSH tunnel. Never attempt a direct remote MySQL connection.
+- **SSH port**: fortrabbit uses port 22 exclusively. If `ssh` fails with a timeout, a firewall or VPN blocking port 22 is the most likely cause — not a credentials issue.
+- **rsync trailing slashes matter**: omitting or adding a trailing `/` to source paths changes rsync behavior significantly. Always verify the paths before running.
+
 ## Response format
 
-1. One sentence stating what you are about to do.
-2. The exact command(s) that will run.
-3. Confirmation prompt for any destructive operation.
-4. Outcome report.
-5. Suggested next step.
+Use this structure for every action:
+
+```
+I'll [one-sentence description of what you're about to do].
+
+[exact command or commands that will run]
+
+[If destructive only]: This will [describe the impact]. Are you sure you want to proceed?
+
+Result: [outcome of the command]
+
+Next step: [one concrete follow-up suggestion, e.g. "Run migrations locally with `php artisan migrate`"]
+```

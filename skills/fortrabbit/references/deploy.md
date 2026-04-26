@@ -13,10 +13,12 @@ Then route based on the result:
 
 ```
 IF repo=yes AND remote=yes (Git is set up)
-  → Say: "Git is set up. You can deploy by pushing to GitHub — the fortrabbit GitHub App will trigger a deployment automatically.
-    Want to push now, or use rsync instead?"
-  IF push now → Run: git push origin [current-branch] (see below)
-  IF rsync    → Load sync.md
+  → Show the command and ask for confirmation:
+      git push origin [current-branch]
+    Say: "Ready to deploy via git push — the fortrabbit GitHub App will trigger the deployment automatically."
+    Ask: "Run this now?"
+    IF yes      → run the git push command
+    IF user wants rsync instead → Load sync.md
 
 ELSE IF repo=no OR remote=no (Git is not set up or incomplete)
   → Say: "Git deployment isn't configured yet. How would you like to deploy?
@@ -79,7 +81,7 @@ Deployment history and logs are visible in the dashboard under:
 
 ## Post-deploy commands
 
-Configure framework-specific commands (migrations, cache:clear) in the dashboard under **Deployment → Post deploy commands**. For the full command list per framework, see [ssh-exec.md](ssh-exec.md).
+Configure framework-specific commands (migrations, cache:clear) in the dashboard under **Deployment → Post deploy commands**. Use `/fortrabbit ssh` to run commands on the remote environment.
 
 ## Troubleshooting a failed deployment
 
@@ -88,4 +90,4 @@ Configure framework-specific commands (migrations, cache:clear) in the dashboard
 3. Post-deploy command failures mean files were already deployed but the command failed — the app may be running new code without the migration applied.
 4. If Composer fails: check `composer.json` for syntax errors or version conflicts.
 
-After deploying code changes, review them in your browser. See [browser-review.md](browser-review.md) for test domain instructions.
+After deploying, check your site at `https://APP_ENV_ID.REGION.frbit.app`. Use `/fortrabbit review` for a full response check with error diagnosis.

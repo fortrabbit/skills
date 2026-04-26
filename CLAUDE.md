@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**fortrabbit/skills** is a multi-platform AI skills package for managing PHP web applications hosted on fortrabbit. It ships instructional content consumed by Claude Code, OpenAI Codex, and GitHub Copilot — there is no build step, no compiled code, and no tests.
+**fortrabbit/agent-skills** is a multi-platform AI skills package for managing PHP web applications hosted on fortrabbit. It ships instructional content consumed by Claude Code, OpenAI Codex, and GitHub Copilot — there is no build step, no compiled code, and no tests.
 
 ## Architecture
 
@@ -78,7 +78,7 @@ The project provides the same operational guidance in platform-specific formats:
 - Never store passwords in files
 - Load `connect.md` automatically on SSH failures
 
-**Update check:** `SKILL.md` silently checks for updates once per 7 days (tracked in `.last-update-check`). The check compares `VERSION` against `https://raw.githubusercontent.com/fortrabbit/skills/main/VERSION`.
+**Update check:** `SKILL.md` silently checks for updates once per 7 days (tracked in `.last-update-check`). The check compares `VERSION` against `https://raw.githubusercontent.com/fortrabbit/agent-skills/main/VERSION`.
 
 ## Supported Frameworks
 

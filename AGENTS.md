@@ -4,7 +4,7 @@ This file provides guidance to OpenAI Codex when working on this repository.
 
 ## Project overview
 
-**fortrabbit/skills** is a multi-platform AI skills package for managing PHP web applications hosted on fortrabbit. It ships instructional content consumed by Claude Code, OpenAI Codex, and GitHub Copilot — there is no build step, no compiled code, and no tests.
+**fortrabbit/agent-skills** is a multi-platform AI skills package for managing PHP web applications hosted on fortrabbit. It ships instructional content consumed by Claude Code, OpenAI Codex, and GitHub Copilot — there is no build step, no compiled code, and no tests.
 
 ## Architecture
 

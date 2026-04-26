@@ -4,8 +4,6 @@ Kirby is a file-based CMS with no database. It works well with Git deployment on
 
 ## Check local setup
 
-Check whether a Kirby project exists in the current folder — see [software-detection.md](software-detection.md). If no project is found, check the local development environment first — see [local-development.md](local-development.md).
-
 If no Kirby project exists yet, install one:
 
 ```bash
@@ -36,7 +34,7 @@ IF unsure
 ```
 
 **Option A — Full rsync**
-All files (including code) are transferred via rsync. No Git required. Best for solo developers or projects where the server is the source of truth. See [sync.md](sync.md) for the full rsync workflow.
+All files (including code) are transferred via rsync. No Git required. Best for solo developers or projects where the server is the source of truth.
 
 **Option B — Git deployment with rsync**
 Code, templates, and config live in Git. Deployments are triggered by pushing to GitHub. Content is synced separately with rsync. Best when the team uses version control.
@@ -45,7 +43,7 @@ Code, templates, and config live in Git. Deployments are triggered by pushing to
 
 ## Option A: Full rsync
 
-For projects without Git, deploy all files via rsync. See [sync.md](sync.md) for the full rsync workflow — it covers uploading, downloading, dry runs, and common flags.
+For projects without Git, deploy all files via rsync. Use `/fortrabbit sync` for the full workflow.
 
 ## Option B: Git deployment and rsync
 
@@ -55,7 +53,7 @@ For projects without Git, deploy all files via rsync. See [sync.md](sync.md) for
 
 ### Set up Git deployment
 
-1. Connect your GitHub repository to fortrabbit. See [setup-git-github.md](setup-git-github.md).
+1. Connect your GitHub repository to fortrabbit (the setup guide loaded above walks you through the steps).
 2. Push changes to trigger deployment, if app is connected.
 3. Verify the site on the test domain.
 
@@ -70,10 +68,10 @@ rsync -av ./site/assets/ APP_ENV_ID@ssh.REGION.frbit.app:./site/assets/
 
 If your project stores media elsewhere, update the source and destination paths accordingly.
 
-For detailed content sync guidance, see [sync-content.md](sync-content.md).
+For detailed content sync commands, use `/fortrabbit content sync`.
 
 ## Notes
 
 - Kirby is file-based — content sync and Git strategy should match your project structure.
 - Keep `.env` out of Git; commit only non-secret config.
-- Review changes in the browser after deployment: [browser-review.md](browser-review.md).
+- After deployment, check your site at `https://APP_ENV_ID.REGION.frbit.app`. Use `/fortrabbit review` for a full response check with error diagnosis.

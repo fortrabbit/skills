@@ -63,7 +63,7 @@ open https://github.com/settings/installations   # macOS
 xdg-open https://github.com/settings/installations  # Linux
 ```
 
-Look for **fortrabbit** in the list. See also [local-development.md](local-development.md) for the full check procedure.
+Look for **fortrabbit** in the list.
 
 ## Connect fortrabbit account to GitHub
 
@@ -75,4 +75,4 @@ Connect your app environment to the repository at [dash.fortrabbit.com/connect/a
 
 ## Verify setup
 
-Once connected, trigger your first deployment — see [deploy.md](deploy.md).
+Once connected, trigger your first deployment with `/fortrabbit deploy`.

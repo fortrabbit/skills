@@ -74,7 +74,7 @@ rsync -av ./VOLUME_PATH/ APP_ENV_ID@ssh.REGION.frbit.app:./VOLUME_PATH/
 rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./VOLUME_PATH/ ./VOLUME_PATH/
 ```
 
-Repeat for each selected volume. Apply the dry-run gate from [sync.md](sync.md) before each rsync.
+Repeat for each selected volume. Apply the dry-run gate (see below) before each rsync.
 
 ---
 
@@ -140,11 +140,30 @@ rsync -av APP_ENV_ID@ssh.REGION.frbit.app:./wp-content/uploads/ ./wp-content/upl
 
 ---
 
+## Dry-run gate
+
+Apply this before any rsync that includes `--delete` or is a first-time sync to that remote path:
+
+```
+→ Run a dry run first and show the output before proceeding:
+
+  rsync -avn [all other flags] SOURCE DESTINATION
+
+  Say: "This preview shows what will be transferred. No files have been changed yet."
+  Ask: "Does this look right? Ready to sync for real?"
+
+  IF yes → rerun the same command without the -n flag
+  IF no  → Ask: "What should I change?"
+```
+
+For routine incremental syncs (no `--delete`, remote path synced before): ask "Ready to sync?" and proceed on confirmation.
+
+---
+
 ## Notes
 
 - rsync uses your local SSH key — the same key registered in the dashboard.
 - Syncing down overwrites local files. Always warn the user before running a down-sync and require explicit confirmation.
-- Always show the full rsync command before running it. Apply the dry-run gate from [sync.md](sync.md) for any sync that includes `--delete` or is a first-time sync.
-- For rsync flags and dry-run usage, see [sync.md](sync.md).
+- Always show the full rsync command before running it. Apply the dry-run gate above for any sync that includes `--delete` or is a first-time sync.
 
-After syncing content up, review changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.
+After syncing content up, check your site at `https://APP_ENV_ID.REGION.frbit.app`. Use `/fortrabbit review` for a full response check with error diagnosis.

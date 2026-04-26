@@ -16,7 +16,7 @@ else
   SCOPE="project"
 fi
 
-echo "This will remove the fortrabbit skills ($SCOPE install):"
+echo "This will remove fortrabbit agent-skills ($SCOPE install):"
 [ -d "$CLAUDE_DIR" ] && echo "  $CLAUDE_DIR"
 [ -d "$CODEX_DIR" ]  && echo "  $CODEX_DIR"
 [ -n "$COPILOT_FILE" ] && [ -f "$COPILOT_FILE" ] && echo "  $COPILOT_FILE"
@@ -33,4 +33,4 @@ esac
 [ -n "$COPILOT_FILE" ] && [ -f "$COPILOT_FILE" ] && rm "$COPILOT_FILE" && echo "Removed $COPILOT_FILE"
 
 echo ""
-echo "fortrabbit skills uninstalled."
+echo "fortrabbit agent-skills uninstalled."

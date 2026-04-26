@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-REPO_URL="https://github.com/fortrabbit/skills/archive/refs/heads/main.tar.gz"
+REPO_URL="https://github.com/fortrabbit/agent-skills/archive/refs/heads/main.tar.gz"
 LOCAL=false
 
 for arg in "$@"; do
@@ -33,7 +33,7 @@ else
   fi
 fi
 
-echo "Installing fortrabbit agent skills ($SCOPE)..."
+echo "Installing fortrabbit agent-skills ($SCOPE)..."
 
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT

@@ -104,4 +104,4 @@ ssh APP_ENV_ID@ssh.REGION.frbit.app 'php --version'
 ssh APP_ENV_ID@ssh.REGION.frbit.app 'du -sh ./'
 ```
 
-After running SSH commands that modify your application, review the changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.
+After running SSH commands that modify your application, check your site at `https://APP_ENV_ID.REGION.frbit.app`. Use `/fortrabbit review` for a full response check with error diagnosis.

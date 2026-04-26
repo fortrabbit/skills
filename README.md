@@ -1,6 +1,6 @@
-# fortrabbit agentic skills
+# fortrabbit agent-skills
 
-The fortrabbit skills extend your coding assistant with domain knowledge on fortrabbit. Set up local development and deploy popular PHP software, such as Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP. Works for Claude Code and OpenAI Codex. Basic support for GitHub Copilot.
+fortrabbit agent-skills extends your coding assistant with domain knowledge on fortrabbit. Set up local development and deploy popular PHP software, such as Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP. Works for Claude Code and OpenAI Codex. Basic support for GitHub Copilot.
 
 Preview version.
 
@@ -45,7 +45,7 @@ The file contains no secrets and **can be committed to Git**. During `/fortrabbi
 Run this anywhere to install globally for your user — available across all your projects:
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/fortrabbit/agent-skills/main/install.sh | sh
 ```
 
 The script detects which tools are installed on your machine and only installs into existing config directories (`~/.claude` for Claude Code, `~/.agents` for OpenAI Codex). It exits with an error if neither is found.
@@ -55,7 +55,7 @@ The script detects which tools are installed on your machine and only installs i
 To install into a specific project instead, run this in the project root:
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/fortrabbit/skills/main/install.sh | sh -s -- --project
+curl -fsSL https://raw.githubusercontent.com/fortrabbit/agent-skills/main/install.sh | sh -s -- --project
 ```
 
 This also installs **GitHub Copilot** instructions (repo-scoped). Note that a per-project install adds a `.claude/` directory to your project folder — this means `composer create-project` will refuse to run there since it requires an empty directory. Prefer the global install when starting a new project from scratch.
@@ -88,4 +88,4 @@ The script lists what will be removed and asks for confirmation before deleting 
 
 ## Disclaimer
 
-These skills are provided as-is, without warranty of any kind. Use at your own risk. Always review the commands your agent proposes before confirming — especially destructive operations like database push/pull.
+This agent-skills is provided as-is, without warranty of any kind. Use at your own risk. Always review the commands your agent proposes before confirming — especially destructive operations like database push/pull.

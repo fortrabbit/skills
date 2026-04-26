@@ -97,7 +97,16 @@ ddev import-db < fortrabbit-backup.sql
 # Step 1: dump from local
 mysqldump --set-gtid-purged=OFF -uLOCAL_DB_USER -p LOCAL_DB_NAME > local-dump.sql
 
-# Step 2: import into remote via tunnel
+# Step 2: validate the dump before uploading
+test -s local-dump.sql \
+  && echo "Dump OK ($(wc -c < local-dump.sql | tr -d ' ') bytes)" \
+  || { echo "ERROR: dump file is empty or missing — aborting"; exit 1; }
+```
+
+Confirm the dump looks valid, then proceed:
+
+```shell
+# Step 3: import into remote via tunnel
 mysql -h127.0.0.1 -P13306 -uAPP_ENV_ID -p APP_ENV_ID < local-dump.sql
 # Enter the MySQL password when prompted (from the dashboard)
 
@@ -137,4 +146,4 @@ mysql -uAPP_ENV_ID -h127.0.0.1 -P13306 -p$FORTRABBIT_DB_PASSWORD -D APP_ENV_ID
 - The database name and username are both the environment ID (e.g. `en-wjl0ai`).
 - Close the tunnel window when done.
 
-After database operations, review the changes in your browser. See [browser-review.md](browser-review.md) for test domain instructions.
+After database operations, check your site at `https://APP_ENV_ID.REGION.frbit.app`. Use `/fortrabbit review` for a full response check with error diagnosis.
