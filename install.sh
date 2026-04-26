@@ -1,6 +1,15 @@
 #!/bin/sh
 set -e
 
+# Detect native Windows (CMD/PowerShell) — uname returns empty in those shells
+case "$(uname -s 2>/dev/null)" in
+  Linux|Darwin|FreeBSD|MINGW*|CYGWIN*|MSYS*) ;;
+  '')
+    echo "Error: This script requires a POSIX shell. On Windows, run it inside WSL or Git Bash."
+    exit 1
+    ;;
+esac
+
 REPO_URL="https://github.com/fortrabbit/agent-skills/archive/refs/heads/main.tar.gz"
 LOCAL=false
 

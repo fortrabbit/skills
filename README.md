@@ -85,6 +85,7 @@ The script lists what will be removed and asks for confirmation before deleting 
 ## Requirements
 
 - `ssh`, `rsync` available in your local terminal
+- **Windows:** WSL is required for rsync-based sync operations and install scripts. SSH works natively on Windows 10+.
 
 ## Disclaimer
 

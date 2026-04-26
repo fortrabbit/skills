@@ -13,6 +13,8 @@ compatibility: >
   Requires git, SSH (port 22), and network access to fortrabbit.com and
   ssh.REGION.frbit.app. Database operations require a local MySQL client.
   rsync required for file sync operations. Designed for Claude Code.
+  On Windows, WSL is required for rsync-based sync and install scripts;
+  SSH commands work natively on Windows 10+.
 license: MIT
 metadata:
   version: "0.2.5"
