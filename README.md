@@ -42,6 +42,32 @@ The file contains no secrets and **can be committed to Git**. During `/fortrabbi
 
 ## Install
 
+### Via GitHub CLI (recommended)
+
+Requires [GitHub CLI](https://cli.github.com/) v2.90.0 or later.
+
+Install globally for your user — available across all your projects:
+
+```shell
+gh skill install fortrabbit/agent-skills fortrabbit --agent claude-code --scope user
+```
+
+Install into the current project only:
+
+```shell
+gh skill install fortrabbit/agent-skills fortrabbit --agent claude-code --scope project
+```
+
+Other supported agents: `codex`, `cursor`, `gemini-cli`, `github-copilot`, and [many more](https://cli.github.com/manual/gh_skill_install). Omit `--agent` to pick interactively.
+
+To update later:
+
+```shell
+gh skill update
+```
+
+### Via install script
+
 Run this anywhere to install globally for your user — available across all your projects:
 
 ```shell
@@ -50,7 +76,7 @@ curl -fsSL https://raw.githubusercontent.com/fortrabbit/agent-skills/main/instal
 
 The script detects which tools are installed on your machine and only installs into existing config directories (`~/.claude` for Claude Code, `~/.agents` for OpenAI Codex). It exits with an error if neither is found.
 
-### Per-project install
+#### Per-project install
 
 To install into a specific project instead, run this in the project root:
 
@@ -73,7 +99,7 @@ This also installs **GitHub Copilot** instructions (repo-scoped). Note that a pe
 Run `/fortrabbit uninstall` inside your agent, or run the uninstall script directly:
 
 ```shell
-# If globally install
+# If globally installed
 ~/.claude/skills/fortrabbit/uninstall.sh
 
 # Per-project install (from project root)

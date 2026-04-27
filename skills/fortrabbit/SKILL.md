@@ -196,7 +196,11 @@ When the user invokes `/fortrabbit update`:
 
 1. Look for `update.sh` in `.claude/skills/fortrabbit/update.sh` (project) or `~/.claude/skills/fortrabbit/update.sh` (global).
 2. If found, run it with `bash update.sh` from its directory. It will compare versions and reinstall if a newer version is available.
-3. If not found (old install without update.sh), show this command and ask the user to run it manually:
+3. If not found, the skill was likely installed via GitHub CLI (`gh skill install`). Show this command and ask the user to run it:
+   ```
+   gh skill update
+   ```
+   If `gh` is not available, fall back to the curl installer:
    ```
    curl -fsSL https://raw.githubusercontent.com/fortrabbit/agent-skills/main/install.sh | sh
    ```
