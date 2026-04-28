@@ -2,7 +2,7 @@
 
 fortrabbit agent-skills extends your coding assistant with domain knowledge on fortrabbit. Set up local development and deploy popular PHP software, such as Laravel, Craft CMS, Kirby, Statamic, WordPress, and generic PHP. Works for Claude Code and OpenAI Codex. Basic support for GitHub Copilot.
 
-Silly preview version (but already helpful). [fortrabbit](https://www.fortrabbit.com) — 2026 PHP as a Service.
+Early access version (already helpful). [fortrabbit](https://www.fortrabbit.com) — 2026 PHP as a Service.
 
 ## Available commands
 
@@ -21,6 +21,10 @@ Silly preview version (but already helpful). [fortrabbit](https://www.fortrabbit
 | `/fortrabbit update`       | Check for updates and install the latest version                |
 | `/fortrabbit uninstall`    | Remove all installed skill files                                |
 | `/fortrabbit help`         | Show all available commands                                     |
+
+## Preview
+
+![Image of claude with fortrabbit skills](https://blog.fortrabbit.com/images/fortrabbit-skill-with-claude.png)
 
 ## Configuration
 
